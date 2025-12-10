@@ -24,7 +24,7 @@ public class AppRestaurante {
         } catch (Exception e) {
             System.out.println("Error al aplicar FlatLaf");
         }
-        var vista = new viewMainWaiter(); 
+        var vista = new inicio(); 
         vista.setVisible(true);
     }
 }

@@ -76,8 +76,8 @@ public class viewMainWaiter extends javax.swing.JFrame {
         viewTop = new javax.swing.JPanel();
         lExit1 = new javax.swing.JLabel();
         viewMenu = new javax.swing.JPanel();
-        buttonMain = new javax.swing.JButton();
         buttonTable = new javax.swing.JButton();
+        buttonMain = new javax.swing.JButton();
         buttonWaiter = new javax.swing.JButton();
         buttonOrder = new javax.swing.JButton();
         lPrinci = new javax.swing.JLabel();
@@ -224,24 +224,6 @@ public class viewMainWaiter extends javax.swing.JFrame {
         viewMenu.setBackground(new java.awt.Color(204, 204, 204));
         viewMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        buttonMain.setBackground(new java.awt.Color(204, 204, 204));
-        buttonMain.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        buttonMain.setForeground(new java.awt.Color(0, 0, 0));
-        buttonMain.setText("Principal");
-        buttonMain.setBorder(null);
-        buttonMain.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        buttonMain.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                buttonMainMouseClicked(evt);
-            }
-        });
-        buttonMain.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonMainActionPerformed(evt);
-            }
-        });
-        viewMenu.add(buttonMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 49, 96, 28));
-
         buttonTable.setBackground(new java.awt.Color(204, 204, 204));
         buttonTable.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
         buttonTable.setForeground(new java.awt.Color(0, 0, 0));
@@ -254,6 +236,25 @@ public class viewMainWaiter extends javax.swing.JFrame {
             }
         });
         viewMenu.add(buttonTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 83, 96, 28));
+
+        buttonMain.setBackground(new java.awt.Color(204, 204, 204));
+        buttonMain.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        buttonMain.setForeground(new java.awt.Color(0, 0, 0));
+        buttonMain.setText("Principal");
+        buttonMain.setBorder(null);
+        buttonMain.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buttonMain.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonMain.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonMainMouseClicked(evt);
+            }
+        });
+        buttonMain.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonMainActionPerformed(evt);
+            }
+        });
+        viewMenu.add(buttonMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 90, 28));
 
         buttonWaiter.setBackground(new java.awt.Color(204, 204, 204));
         buttonWaiter.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
