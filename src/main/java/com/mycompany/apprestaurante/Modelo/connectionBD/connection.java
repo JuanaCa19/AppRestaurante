@@ -6,8 +6,8 @@ import java.sql.DriverManager;
 public class connection {
     public static Connection getConnection(){
         Connection connection = null;
-        String user = "admin";
-        String password = "root";
+        String user = "root";
+        String password = "admin";
         String database = "restaurante";
         String url = "jdbc:mysql://localhost:3306/"+database;
         try{

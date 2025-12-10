@@ -4,6 +4,8 @@
 
 package com.mycompany.apprestaurante;
 
+import com.mycompany.apprestaurante.Vista.Login.inicio;
+
 /**
  *
  * @author carde
@@ -11,6 +13,7 @@ package com.mycompany.apprestaurante;
 public class AppRestaurante {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        inicio vista = new inicio();
+        vista.setVisible(true);
     }
 }
