@@ -4,9 +4,17 @@
  */
 package com.mycompany.apprestaurante.Vista.viewAdmin;
 
+import com.mycompany.apprestaurante.Vista.Login.login;
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -17,24 +25,65 @@ public class viewMainAdmin extends javax.swing.JFrame {
     /**
      * Creates new form viewMainAdmin
      */
-    
     /**
-     * labelCurrentOccupation= porcentaje de ocupacion    
-     * 
-     */    
-    
+     * labelCurrentOccupation= porcentaje de ocupacion 
+     * listTables= tabla de  mesas 
+     * tableShowWaiter= tabla meseros
+     *
+     */
     public viewMainAdmin() {
         setUndecorated(true);
         initComponents();
         setLocationRelativeTo(null);
-        
-        ImageIcon icono1 = new ImageIcon(getClass().getResource("/picture/Exit.png"));
-        Image imagen1 = icono1.getImage().getScaledInstance(lExit1.getWidth(),lExit1.getHeight(),Image.SCALE_SMOOTH);
+
+        ImageIcon icono1 = new ImageIcon(getClass().getResource("/picture/Exit1.png"));
+        Image imagen1 = icono1.getImage().getScaledInstance(lExit1.getWidth(), lExit1.getHeight(), Image.SCALE_SMOOTH);
         lExit1.setIcon(new ImageIcon(imagen1));
+        loadTable();
     }
-    
-    
-    
+
+    public void loadTable() {
+        applyTableStyle(listTables);
+        applyTableStyle(tableShowWaiter);
+        applyTableStyle(tableDish); 
+        applyTableStyle(tableOrder); 
+    }
+
+    public void applyTableStyle(JTable tabla) {
+
+        JTableHeader header = tabla.getTableHeader();
+        header.setOpaque(false);
+        header.setBackground(Color.decode("#008D9B"));
+        header.setForeground(Color.WHITE);
+        header.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 14));
+
+        tabla.setShowGrid(false);
+        tabla.setIntercellSpacing(new Dimension(0, 0));
+
+        tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus,
+                    int row, int column) {
+
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                Color par = Color.WHITE;
+                Color impar = Color.decode("#CCCCCC");
+
+                if (!isSelected) {
+                    c.setBackground(row % 2 == 0 ? par : impar);
+                    c.setForeground(Color.BLACK);
+                } else {
+                    c.setBackground(new Color(0, 120, 215));
+                    c.setForeground(Color.WHITE);
+                }
+
+                return c;
+            }
+        });
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,8 +111,20 @@ public class viewMainAdmin extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listTables = new javax.swing.JTable();
         waiterManagement = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        buttonAddWaiter = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableShowWaiter = new javax.swing.JTable();
         dishManagement = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        buttonAddDish = new javax.swing.JButton();
+        searchDish = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableDish = new javax.swing.JTable();
         orderManagement = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tableOrder = new javax.swing.JTable();
         viewTop = new javax.swing.JPanel();
         lExit1 = new javax.swing.JLabel();
         viewMenu = new javax.swing.JPanel();
@@ -72,6 +133,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
         buttonWaiter = new javax.swing.JButton();
         buttonDish = new javax.swing.JButton();
         buttonOrder = new javax.swing.JButton();
+        buttonExti = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -250,12 +312,13 @@ public class viewMainAdmin extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Gestion de Mesas");
+        jLabel4.setText("Gestión de Mesas");
 
-        buttonAddTable.setBackground(new java.awt.Color(204, 204, 204));
+        buttonAddTable.setBackground(new java.awt.Color(0, 141, 155));
         buttonAddTable.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
         buttonAddTable.setForeground(new java.awt.Color(255, 255, 255));
         buttonAddTable.setText("+ Agregar Mesa");
+        buttonAddTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         buttonAddTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonAddTableMouseClicked(evt);
@@ -305,47 +368,181 @@ public class viewMainAdmin extends javax.swing.JFrame {
 
         viewMain.add(tableManagement, "tableManagement");
 
-        waiterManagement.setBackground(new java.awt.Color(153, 255, 0));
+        waiterManagement.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel5.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Gestión de Meseros");
+
+        buttonAddWaiter.setBackground(new java.awt.Color(0, 141, 155));
+        buttonAddWaiter.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        buttonAddWaiter.setForeground(new java.awt.Color(255, 255, 255));
+        buttonAddWaiter.setText("+ Agregar mesero");
+        buttonAddWaiter.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buttonAddWaiter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddWaiterActionPerformed(evt);
+            }
+        });
+
+        tableShowWaiter.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tableShowWaiter);
 
         javax.swing.GroupLayout waiterManagementLayout = new javax.swing.GroupLayout(waiterManagement);
         waiterManagement.setLayout(waiterManagementLayout);
         waiterManagementLayout.setHorizontalGroup(
             waiterManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 690, Short.MAX_VALUE)
+            .addGroup(waiterManagementLayout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonAddWaiter)
+                .addGap(53, 53, 53))
+            .addGroup(waiterManagementLayout.createSequentialGroup()
+                .addGap(89, 89, 89)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(149, Short.MAX_VALUE))
         );
         waiterManagementLayout.setVerticalGroup(
             waiterManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
+            .addGroup(waiterManagementLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(waiterManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(buttonAddWaiter))
+                .addGap(45, 45, 45)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         viewMain.add(waiterManagement, "waiterManagement");
 
-        dishManagement.setBackground(new java.awt.Color(255, 102, 51));
+        dishManagement.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel6.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Gestión de Platos");
+
+        buttonAddDish.setBackground(new java.awt.Color(0, 141, 155));
+        buttonAddDish.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        buttonAddDish.setForeground(new java.awt.Color(255, 255, 255));
+        buttonAddDish.setText("+ Agregar Plato");
+        buttonAddDish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddDishActionPerformed(evt);
+            }
+        });
+
+        searchDish.setText("Buscar Plato");
+        searchDish.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                searchDishFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                searchDishFocusLost(evt);
+            }
+        });
+
+        tableDish.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tableDish);
 
         javax.swing.GroupLayout dishManagementLayout = new javax.swing.GroupLayout(dishManagement);
         dishManagement.setLayout(dishManagementLayout);
         dishManagementLayout.setHorizontalGroup(
             dishManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 690, Short.MAX_VALUE)
+            .addGroup(dishManagementLayout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addGroup(dishManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dishManagementLayout.createSequentialGroup()
+                        .addComponent(searchDish, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(dishManagementLayout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonAddDish)
+                        .addGap(61, 61, 61))))
+            .addGroup(dishManagementLayout.createSequentialGroup()
+                .addGap(94, 94, 94)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 144, Short.MAX_VALUE))
         );
         dishManagementLayout.setVerticalGroup(
             dishManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
+            .addGroup(dishManagementLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(dishManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(buttonAddDish))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(searchDish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         viewMain.add(dishManagement, "dishManagement");
 
-        orderManagement.setBackground(new java.awt.Color(51, 0, 102));
+        orderManagement.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel7.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Gestión de Pedidos");
+
+        tableOrder.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(tableOrder);
 
         javax.swing.GroupLayout orderManagementLayout = new javax.swing.GroupLayout(orderManagement);
         orderManagement.setLayout(orderManagementLayout);
         orderManagementLayout.setHorizontalGroup(
             orderManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 690, Short.MAX_VALUE)
+            .addGroup(orderManagementLayout.createSequentialGroup()
+                .addGroup(orderManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(orderManagementLayout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(orderManagementLayout.createSequentialGroup()
+                        .addGap(106, 106, 106)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
         orderManagementLayout.setVerticalGroup(
             orderManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
+            .addGroup(orderManagementLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jLabel7)
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         viewMain.add(orderManagement, "orderManagement");
@@ -366,16 +563,16 @@ public class viewMainAdmin extends javax.swing.JFrame {
         viewTopLayout.setHorizontalGroup(
             viewTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, viewTopLayout.createSequentialGroup()
-                .addContainerGap(737, Short.MAX_VALUE)
-                .addComponent(lExit1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(752, Short.MAX_VALUE)
+                .addComponent(lExit1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
         );
         viewTopLayout.setVerticalGroup(
             viewTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewTopLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(lExit1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addComponent(lExit1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         getContentPane().add(viewTop, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 80));
@@ -387,6 +584,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
         buttonMain.setForeground(new java.awt.Color(255, 255, 255));
         buttonMain.setText("Principal");
         buttonMain.setBorder(null);
+        buttonMain.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         buttonMain.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonMainMouseClicked(evt);
@@ -398,6 +596,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
         buttonTable.setForeground(new java.awt.Color(255, 255, 255));
         buttonTable.setText("Mesas");
         buttonTable.setBorder(null);
+        buttonTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         buttonTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonTableMouseClicked(evt);
@@ -409,6 +608,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
         buttonWaiter.setForeground(new java.awt.Color(255, 255, 255));
         buttonWaiter.setText("Meseros");
         buttonWaiter.setBorder(null);
+        buttonWaiter.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         buttonWaiter.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonWaiterMouseClicked(evt);
@@ -425,6 +625,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
         buttonDish.setForeground(new java.awt.Color(255, 255, 255));
         buttonDish.setText("Platos");
         buttonDish.setBorder(null);
+        buttonDish.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         buttonDish.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonDishMouseClicked(evt);
@@ -436,9 +637,22 @@ public class viewMainAdmin extends javax.swing.JFrame {
         buttonOrder.setForeground(new java.awt.Color(255, 255, 255));
         buttonOrder.setText("Pedidos");
         buttonOrder.setBorder(null);
+        buttonOrder.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         buttonOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonOrderMouseClicked(evt);
+            }
+        });
+
+        buttonExti.setBackground(new java.awt.Color(204, 204, 204));
+        buttonExti.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        buttonExti.setForeground(new java.awt.Color(255, 255, 255));
+        buttonExti.setText("<-- Salir");
+        buttonExti.setBorder(null);
+        buttonExti.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buttonExti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExtiActionPerformed(evt);
             }
         });
 
@@ -458,7 +672,8 @@ public class viewMainAdmin extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(viewMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(buttonDish, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonOrder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(buttonOrder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonExti, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         viewMenuLayout.setVerticalGroup(
@@ -474,7 +689,9 @@ public class viewMainAdmin extends javax.swing.JFrame {
                 .addComponent(buttonDish, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
+                .addComponent(buttonExti)
+                .addGap(20, 20, 20))
         );
 
         getContentPane().add(viewMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 110, 440));
@@ -508,7 +725,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonOrderMouseClicked
 
     private void lExit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lExit1MouseClicked
-        System.exit(0); 
+        System.exit(0);
     }//GEN-LAST:event_lExit1MouseClicked
 
     private void buttonWaiterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonWaiterActionPerformed
@@ -516,9 +733,37 @@ public class viewMainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonWaiterActionPerformed
 
     private void buttonAddTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonAddTableMouseClicked
-        tableForm table = new tableForm(); 
+        tableForm table = new tableForm();
         table.setVisible(true);
     }//GEN-LAST:event_buttonAddTableMouseClicked
+
+    private void buttonExtiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExtiActionPerformed
+        login login = new login();
+        this.setVisible(false);
+        login.setVisible(true);
+    }//GEN-LAST:event_buttonExtiActionPerformed
+
+    private void buttonAddWaiterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddWaiterActionPerformed
+        waiterForm waiter = new waiterForm();
+        waiter.setVisible(true);
+    }//GEN-LAST:event_buttonAddWaiterActionPerformed
+
+    private void searchDishFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchDishFocusGained
+        if (searchDish.getText().equals("Buscar Plato")) {
+            searchDish.setText("");
+        }
+    }//GEN-LAST:event_searchDishFocusGained
+
+    private void searchDishFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchDishFocusLost
+          if (searchDish.getText().isEmpty()) {
+            searchDish.setText("Buscar Plato");
+        }
+    }//GEN-LAST:event_searchDishFocusLost
+
+    private void buttonAddDishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddDishActionPerformed
+       dishForm dish = new dishForm(); 
+       dish.setVisible(true);
+    }//GEN-LAST:event_buttonAddDishActionPerformed
 
     /**
      * @param args the command line arguments
@@ -556,8 +801,11 @@ public class viewMainAdmin extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonAddDish;
     private javax.swing.JButton buttonAddTable;
+    private javax.swing.JButton buttonAddWaiter;
     private javax.swing.JButton buttonDish;
+    private javax.swing.JButton buttonExti;
     private javax.swing.JButton buttonMain;
     private javax.swing.JButton buttonOrder;
     private javax.swing.JButton buttonTable;
@@ -568,18 +816,28 @@ public class viewMainAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lExit1;
     private javax.swing.JLabel labelCurrentOccupation;
     private javax.swing.JTable listTables;
     private javax.swing.JPanel mainStatistics;
     private javax.swing.JPanel orderManagement;
+    private javax.swing.JTextField searchDish;
+    private javax.swing.JTable tableDish;
     private javax.swing.JPanel tableManagement;
+    private javax.swing.JTable tableOrder;
+    private javax.swing.JTable tableShowWaiter;
     private javax.swing.JPanel viewMain;
     private javax.swing.JPanel viewMenu;
     private javax.swing.JPanel viewTop;
