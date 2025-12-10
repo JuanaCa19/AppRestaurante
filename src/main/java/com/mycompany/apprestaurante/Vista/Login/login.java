@@ -5,6 +5,7 @@
 package com.mycompany.apprestaurante.Vista.Login;
 
 
+import com.mycompany.apprestaurante.Controlador.userController.UserController;
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,6 +15,7 @@ import java.awt.*;
  */
 public class login extends javax.swing.JFrame {
     
+    private UserController usController = new UserController();
      private int x = 0;
     /**
      * Creates new form login
@@ -80,7 +82,7 @@ public class login extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(204, 204, 204)));
 
         jButton1.setBackground(new java.awt.Color(0, 141, 155));
-        jButton1.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Ingresar");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -90,7 +92,7 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        cajaPassword.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        cajaPassword.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 10)); // NOI18N
         cajaPassword.setForeground(java.awt.Color.gray);
         cajaPassword.setText("Ingrese Contraseña");
         cajaPassword.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -107,11 +109,11 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Contraseña");
 
-        cajaUser.setFont(new java.awt.Font("Sitka Text", 0, 10)); // NOI18N
+        cajaUser.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 10)); // NOI18N
         cajaUser.setForeground(java.awt.Color.gray);
         cajaUser.setText("Ingrese Usuario");
         cajaUser.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -128,19 +130,19 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Usuario");
 
-        jLabel3.setFont(new java.awt.Font("Sitka Text", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(153, 153, 153));
         jLabel3.setText("Inicia sesión para acceder a tu cuenta.");
 
-        labelLogo.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
+        labelLogo.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 28)); // NOI18N
         labelLogo.setForeground(new java.awt.Color(0, 0, 0));
         labelLogo.setText("Acceso de Administrador");
 
-        jLabel4.setFont(new java.awt.Font("Sitka Text", 1, 16)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Sabores del Fogon");
 
@@ -264,17 +266,16 @@ public class login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-//        try{
-//            String nameUser = cajaUser.getText();
-//            String password = cajaPassword.getText();
-//            UserController controlador = new UserController();
-//            boolean hide = controlador.validateLogin(nameUser, password);
-//            if(hide){
-//                this.setVisible(false);
-//            }
-//        }catch(Exception e){
-//            System.out.println("Error al convertir datos");
-//        }
+        try{
+            String nameUser = cajaUser.getText();
+            String password = cajaPassword.getText();
+            boolean hide = usController.validateLogin(nameUser, password);
+            if(hide){
+                this.setVisible(false);
+            }
+        }catch(Exception e){
+            System.out.println("Error al convertir datos");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void cajaUserFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cajaUserFocusGained

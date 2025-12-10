@@ -10,4 +10,6 @@ public interface IUserDAO {
     public void saveUser(User user);
 
     public List<User> listUser();
+    
+    public boolean checkCredentials(String nameUser,String password);
 }

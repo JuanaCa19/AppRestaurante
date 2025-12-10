@@ -9,6 +9,7 @@ import com.mycompany.apprestaurante.Modelo.entities.Waiter;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -69,20 +70,29 @@ public class selectWaiter extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 28)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Seleccionar Mesero");
 
+        jLabel2.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(60, 63, 65));
         jLabel2.setText("Accede a su panel de gestión de pedidos");
 
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 12)); // NOI18N
         jLabel3.setText("Usuario");
 
+        comboWaiter.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 12)); // NOI18N
         comboWaiter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un mesero" }));
 
         jButton1.setBackground(new java.awt.Color(0, 141, 155));
+        jButton1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Ingresar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         lAtras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lAtras.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -114,7 +124,7 @@ public class selectWaiter extends javax.swing.JFrame {
                         .addComponent(jLabel2))
                     .addComponent(comboWaiter, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(lExit, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -166,6 +176,16 @@ public class selectWaiter extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_lExitMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String name = comboWaiter.getSelectedItem().toString();
+        if(!name.equals("Seleccione un mesero")){
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Seleccione un Mesero!!");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
