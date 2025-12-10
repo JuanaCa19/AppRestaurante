@@ -7,6 +7,7 @@ package com.mycompany.apprestaurante;
 import com.mycompany.apprestaurante.Vista.viewAdmin.viewMainAdmin;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.mycompany.apprestaurante.Vista.Login.inicio;
+import com.mycompany.apprestaurante.Vista.viewWaiter.viewMainWaiter;
 import javax.swing.UIManager;
 
 /**
@@ -21,7 +22,7 @@ public class AppRestaurante {
         } catch (Exception e) {
             System.out.println("Error al aplicar FlatLaf");
         }
-        inicio vista = new inicio(); 
+        var vista = new viewMainWaiter(); 
         vista.setVisible(true);
     }
 }
