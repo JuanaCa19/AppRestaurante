@@ -4,6 +4,11 @@
 
 package com.mycompany.apprestaurante;
 
+import com.mycompany.apprestaurante.Vista.viewAdmin.viewMainAdmin;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.mycompany.apprestaurante.Vista.Login.inicio;
+import javax.swing.UIManager;
+
 /**
  *
  * @author carde
@@ -11,6 +16,12 @@ package com.mycompany.apprestaurante;
 public class AppRestaurante {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+                try {
+            UIManager.setLookAndFeel(new FlatIntelliJLaf());
+        } catch (Exception e) {
+            System.out.println("Error al aplicar FlatLaf");
+        }
+        inicio vista = new inicio(); 
+        vista.setVisible(true);
     }
 }

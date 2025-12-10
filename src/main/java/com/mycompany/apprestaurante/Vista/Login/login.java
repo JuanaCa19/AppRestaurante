@@ -245,17 +245,17 @@ public class login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        try{
-            String nameUser = cajaUser.getText();
-            String password = cajaPassword.getText();
-            UserController controlador = new UserController();
-            boolean hide = controlador.validateLogin(nameUser, password);
-            if(hide){
-                this.setVisible(false);
-            }
-        }catch(Exception e){
-            System.out.println("Error al convertir datos");
-        }
+//        try{
+//            String nameUser = cajaUser.getText();
+//            String password = cajaPassword.getText();
+//            UserController controlador = new UserController();
+//            boolean hide = controlador.validateLogin(nameUser, password);
+//            if(hide){
+//                this.setVisible(false);
+//            }
+//        }catch(Exception e){
+//            System.out.println("Error al convertir datos");
+//        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void cajaUserFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cajaUserFocusGained
