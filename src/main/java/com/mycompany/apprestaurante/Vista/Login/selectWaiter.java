@@ -6,6 +6,7 @@ package com.mycompany.apprestaurante.Vista.Login;
 
 import com.mycompany.apprestaurante.Controlador.waiterController.WaiterController;
 import com.mycompany.apprestaurante.Modelo.entities.Waiter;
+import com.mycompany.apprestaurante.Vista.viewWaiter.viewMainWaiter;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -185,7 +186,12 @@ public class selectWaiter extends javax.swing.JFrame {
             
         }else{
             JOptionPane.showMessageDialog(null, "Seleccione un Mesero!!");
+            return; 
         }
+        
+        viewMainWaiter waiter = new viewMainWaiter(); 
+        waiter.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
