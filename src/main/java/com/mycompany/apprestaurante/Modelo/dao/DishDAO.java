@@ -11,20 +11,17 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-public class DishDAO implements IDishDAO {
-     private connection conexion;
+import static com.mycompany.apprestaurante.Modelo.connectionBD.connection.getConnection;
 
-    public DishDAO() {
-        conexion = new connection();
-    }
+public class DishDAO implements IDishDAO {
 
     
     @Override
     public boolean saveDish(Dish dish) {
-        Connection con = conexion. getConnection();
+        Connection con = getConnection();
 
         PreparedStatement ps;
-        String sql = "INSERT INTO  dishes(nombre, precio)values(?,?)";
+        String sql = "INSERT INTO  dishes(name, precio)values(?,?)";
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, dish.getNombre());
@@ -46,7 +43,7 @@ public class DishDAO implements IDishDAO {
     @Override
     public List<Dish> listDish() {
          List<Dish> lista = new ArrayList<>();
-        Connection con = conexion.getConnection();
+        Connection con = getConnection();
         PreparedStatement ps;
         ResultSet rs;
         String sql = "SELECT * FROM dishes";
@@ -56,7 +53,7 @@ public class DishDAO implements IDishDAO {
             while (rs.next()) {
                 Dish dish = new Dish();
                 dish.setId(rs.getInt("id"));
-                dish.setNombre(rs.getString("nombre"));
+                dish.setNombre(rs.getString("name"));
                 dish.setPrice(rs.getDouble("precio"));
                 lista.add(dish);
             }
