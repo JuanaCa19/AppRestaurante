@@ -15,7 +15,9 @@ import static com.mycompany.apprestaurante.Modelo.connectionBD.connection.getCon
 import java.time.LocalDate;
 
 public class OrderDAO implements IOrderDAO {
+
     
+
     @Override
     public int saveOrder(Order order) {
         Connection con = getConnection();
@@ -26,13 +28,13 @@ public class OrderDAO implements IOrderDAO {
             ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setDate(1, Date.valueOf(LocalDate.now()));
             ps.setTime(2, Time.valueOf(LocalTime.now()));
-            ps.setInt(3,order.getIdTable());
-            ps.setInt(4,order.getIdWaiter());
-            ps.setDouble(5,order.getTotal());
+            ps.setInt(3, order.getIdTable());
+            ps.setInt(4, order.getIdWaiter());
+            ps.setDouble(5, order.getTotal());
             ps.setBoolean(6, true);
             ps.executeUpdate();
             rs = ps.getGeneratedKeys();
-            if(rs.next()){
+            if (rs.next()) {
                 int idOrder = rs.getInt(1);
                 return idOrder;
             }
@@ -45,7 +47,7 @@ public class OrderDAO implements IOrderDAO {
                 System.out.println("Error al cerrar la conexion" + e.getMessage());
             }
         }
-       return -1;
+        return -1;
     }
 
     @Override
@@ -80,19 +82,18 @@ public class OrderDAO implements IOrderDAO {
         return null;
     }
 
-
     @Override
     public List<Order> findByIdWaiter(int idWaiter) {
         List<Order> list = new ArrayList<>();
         Connection con = getConnection();
         PreparedStatement ps;
         ResultSet rs;
-        String sql = "SELECT * FROM restaurante.orders WHERE idWaiter = ?"; 
-        try{
+        String sql = "SELECT * FROM restaurante.orders WHERE idWaiter = ?";
+        try {
             ps = con.prepareStatement(sql);
-            ps.setInt(1,idWaiter);
+            ps.setInt(1, idWaiter);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Order order = new Order();
                 order.setTotal(rs.getInt("total"));
                 order.setIdTable(rs.getInt("idTable"));
@@ -101,12 +102,12 @@ public class OrderDAO implements IOrderDAO {
                 list.add(order);
             }
             return list;
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error al listar pedidos: " + e.getMessage());
-        }finally{
-            try{
+        } finally {
+            try {
                 con.close();
-            }catch(SQLException e){
+            } catch (SQLException e) {
                 System.out.println("Error al cerrar conexion: " + e.getMessage());
             }
         }
@@ -115,7 +116,7 @@ public class OrderDAO implements IOrderDAO {
 
     @Override
     public void modifyOrder(int idOrder) {
-         Connection con = getConnection();
+        Connection con = getConnection();
         PreparedStatement ps;
         String sql = "UPDATE orders set state = ? WHERE id = ?";
         try {
@@ -133,6 +134,59 @@ public class OrderDAO implements IOrderDAO {
             }
         }
     }
-    
-    
+
+    @Override
+    public int getActiveOrders() {
+        String sql = "SELECT COUNT(*) AS pedidos_activos FROM orders WHERE state = '0' ";
+        Connection con = getConnection();
+        int pedidosActivos = 0;
+        PreparedStatement ps;
+        ResultSet rs;
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                pedidosActivos = rs.getInt("pedidos_activos");
+            }
+            return pedidosActivos;
+        } catch (SQLException e) {
+            System.out.println("Error al obtener pedidos activos: " + e.getMessage());
+        }finally{
+             try {
+                con.close();
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexion de mesa" + e.getMessage());
+            }
+        
+        }
+        return -1; 
+    }
+
+    @Override
+    public double obtenerVentasDelDia() {
+        String sql = "SELECT SUM(total) FROM orders WHERE dateOrder = CURDATE()";
+        Connection con = getConnection();
+        double ventasDia = 0;
+        PreparedStatement ps;
+        ResultSet rs;
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                ventasDia = rs.getDouble(1);
+            }
+            return ventasDia;
+        } catch (SQLException e) {
+            System.out.println("Error al obtener ventas del día: " + e.getMessage());
+        }finally{
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexion de mesa" + e.getMessage());
+            }
+        
+        }
+        return -1; 
+    }
 }

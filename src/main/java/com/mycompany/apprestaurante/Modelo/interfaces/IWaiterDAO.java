@@ -11,4 +11,6 @@ public interface IWaiterDAO {
     public List<Waiter> listWaiter();
 
     public int findByName(String name);
+    
+    public int getActiveWaiters(); 
 }

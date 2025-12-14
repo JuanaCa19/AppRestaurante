@@ -1,6 +1,5 @@
 package com.mycompany.apprestaurante.Modelo.dao;
 
-
 import com.mycompany.apprestaurante.Modelo.entities.Waiter;
 import com.mycompany.apprestaurante.Modelo.interfaces.IWaiterDAO;
 import java.sql.Connection;
@@ -13,27 +12,28 @@ import java.util.List;
 import static com.mycompany.apprestaurante.Modelo.connectionBD.connection.getConnection;
 
 public class WaiterDAO implements IWaiterDAO {
+
     @Override
     public boolean saveWaiter(Waiter waiter) {
         Connection con = getConnection();
         PreparedStatement ps;
         String sql = "INSERT INTO waiters (name,phone) VALUES (?,?)";
-        try{
+        try {
             ps = con.prepareStatement(sql);
             ps.setString(1, waiter.getName());
             ps.setString(2, waiter.getPhone());
             ps.execute();
 
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error al insertar mesero: " + e.getMessage());
-        }finally{
-            try{
+        } finally {
+            try {
                 con.close();
-            }catch(SQLException e){
+            } catch (SQLException e) {
                 System.out.println("Error al cerrar la conexion: " + e.getMessage());
             }
         }
-        return false; 
+        return false;
     }
 
     @Override
@@ -43,10 +43,10 @@ public class WaiterDAO implements IWaiterDAO {
         PreparedStatement ps;
         ResultSet rs;
         String sql = "SELECT * FROM waiters";
-        try{
+        try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Waiter waiter = new Waiter();
                 waiter.setName(rs.getString("name"));
                 waiter.setId(rs.getInt("id"));
@@ -54,12 +54,12 @@ public class WaiterDAO implements IWaiterDAO {
                 list.add(waiter);
             }
             return list;
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error al listar meseros: " + e.getMessage());
-        }finally{
-            try{
+        } finally {
+            try {
                 con.close();
-            }catch(SQLException e){
+            } catch (SQLException e) {
                 System.out.println("Error al cerrar conexion: " + e.getMessage());
             }
         }
@@ -72,19 +72,46 @@ public class WaiterDAO implements IWaiterDAO {
         PreparedStatement ps;
         ResultSet rs;
         String sql = "SELECT id FROM waiters where name = ?";
-        try{
+        try {
             ps = con.prepareStatement(sql);
-            ps.setString(1,name);
+            ps.setString(1, name);
             rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt("id");
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error al buscar meseros: " + e.getMessage());
-        }finally{
-            try{
+        } finally {
+            try {
                 con.close();
-            }catch(SQLException e){
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar conexion: " + e.getMessage());
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public int getActiveWaiters() {
+        String sql = "SELECT COUNT(*) FROM waiters ";
+        Connection con = getConnection();
+        PreparedStatement ps;
+        ResultSet rs;
+        int count = 0;
+
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+            return count;
+        } catch (Exception e) {
+            System.out.println("Error al obtener meseros activos: " + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
                 System.out.println("Error al cerrar conexion: " + e.getMessage());
             }
         }

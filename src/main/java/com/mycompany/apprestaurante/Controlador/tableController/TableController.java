@@ -31,4 +31,8 @@ public class TableController {
     public double getCurrentOccupation(){
         return tableDAO.getCurrentOccupation(); 
     }
+    
+    public int getTableAvalaible(){
+        return tableDAO.getTableAvalaible(); 
+    }
 }

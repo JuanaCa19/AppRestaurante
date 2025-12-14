@@ -15,4 +15,8 @@ public interface IOrderDAO {
     public List<Order> findByIdWaiter(int idWaiter);
     
     public void modifyOrder(int idOrder);
+    
+     public int getActiveOrders();  
+     
+     public double obtenerVentasDelDia(); 
 }

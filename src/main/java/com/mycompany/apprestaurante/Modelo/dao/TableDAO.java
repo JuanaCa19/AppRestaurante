@@ -22,7 +22,7 @@ public class TableDAO implements ITableDAO {
         try {
             ps = con.prepareStatement(sql);
             ps.setInt(1, table.getCapacity());
-            ps.setBoolean(2, !table.isState());
+            ps.setBoolean(2, table.isState());
             ps.execute();
             return true;
         } catch (SQLException e) {
@@ -68,7 +68,7 @@ public class TableDAO implements ITableDAO {
     }
 
     @Override
-    public void modifyTable(int idTable,boolean state) {
+    public void modifyTable(int idTable, boolean state) {
         Connection con = getConnection();
         PreparedStatement ps;
         String sql = "UPDATE tables set state = ? WHERE id = ?";
@@ -94,19 +94,51 @@ public class TableDAO implements ITableDAO {
         double ocupacion = 0;
         Connection con = getConnection();
         PreparedStatement ps;
-        ResultSet rs; 
+        ResultSet rs;
         try {
             ps = con.prepareStatement(sql);
-            rs = ps.executeQuery(); 
+            rs = ps.executeQuery();
             if (rs.next()) {
                 ocupacion = rs.getDouble("ocupacion");
             }
+            return ocupacion;
         } catch (SQLException e) {
             System.out.println("Error al obtener ocupación: " + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexion de mesa" + e.getMessage());
+            }
         }
-
-        return ocupacion;
+         return -1; 
     }
-    
-    
+
+    @Override
+    public int getTableAvalaible() {
+        String sql = "SELECT COUNT(*) FROM tables WHERE state = '1' ";
+        Connection con = getConnection();
+        PreparedStatement ps;
+        ResultSet rs;
+        int count = 0;
+
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+            return count;
+        } catch (Exception e) {
+            System.out.println("Error al obtener mesas activos: " + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar conexion: " + e.getMessage());
+            }
+        }
+        return -1;
+    }
+
 }

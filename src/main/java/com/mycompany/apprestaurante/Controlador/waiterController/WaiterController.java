@@ -20,4 +20,8 @@ public class WaiterController {
     public int findByName(String name){
         return dao.findByName(name);
     }
+    
+    public int getActiveWaiters(){
+        return dao.getActiveWaiters(); 
+    }
 }

@@ -28,4 +28,12 @@ public class OrderController {
     public void modifyOrder(int idOrder){
         iOrderDAO.modifyOrder(idOrder);
     }
+    
+    public int totalOrder(){
+        return iOrderDAO.getActiveOrders(); 
+    }
+    
+    public double obtenerVentasDelDia(){
+        return iOrderDAO.obtenerVentasDelDia(); 
+    }
 }
