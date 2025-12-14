@@ -12,4 +12,8 @@ public class WaiterController {
     public List<Waiter> listWaiter(){
         return dao.listWaiter();
     }
+
+    public int findByName(String name){
+        return dao.findByName(name);
+    }
 }

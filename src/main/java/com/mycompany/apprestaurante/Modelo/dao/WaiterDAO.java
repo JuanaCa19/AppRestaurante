@@ -64,4 +64,29 @@ public class WaiterDAO implements IWaiterDAO {
         }
         return null;
     }
+
+    @Override
+    public int findByName(String name) {
+        Connection con = getConnection();
+        PreparedStatement ps;
+        ResultSet rs;
+        String sql = "SELECT id FROM waiters where name = ?";
+        try{
+            ps = con.prepareStatement(sql);
+            ps.setString(1,name);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getInt("id");
+            }
+        }catch(SQLException e){
+            System.out.println("Error al buscar meseros: " + e.getMessage());
+        }finally{
+            try{
+                con.close();
+            }catch(SQLException e){
+                System.out.println("Error al cerrar conexion: " + e.getMessage());
+            }
+        }
+        return -1;
+    }
 }

@@ -4,27 +4,32 @@
  */
 package com.mycompany.apprestaurante.Vista.viewWaiter;
 
+
+
+
+import com.mycompany.apprestaurante.Controlador.orderController.OrderController;
+import com.mycompany.apprestaurante.Controlador.waiterController.WaiterController;
+import com.mycompany.apprestaurante.Modelo.dto.orderTableDTO;
 import com.mycompany.apprestaurante.Vista.viewAdmin.tableForm;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
  * @author carlo
  */
 public class viewMainWaiter extends javax.swing.JFrame {
-
-    /**
-     * Creates new form viewMainAdmin
-     */
     
-    /**
-     * labelCurrentOccupation= porcentaje de ocupacion    
-     * 
-     */    
+   private int idWaiter;
+   private OrderController orderController = new OrderController();
+   private WaiterController waiterController = new WaiterController();
     
-    public viewMainWaiter() {
+    public viewMainWaiter(String name) {
         setUndecorated(true);
         initComponents();
         setLocationRelativeTo(null);
@@ -40,14 +45,21 @@ public class viewMainWaiter extends javax.swing.JFrame {
         lItems.setIcon(new ImageIcon(imagen3));
         ImageIcon icono4 = new ImageIcon(getClass().getResource("/picture/princi.png"));
         Image imagen4 = icono4.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
-        lPrinci.setIcon(new ImageIcon(imagen4));
+        lMain.setIcon(new ImageIcon(imagen4));
         ImageIcon icono5 = new ImageIcon(getClass().getResource("/picture/pedido1.png"));
         Image imagen5 = icono5.getImage().getScaledInstance(40,40,Image.SCALE_SMOOTH);
-        lpedido.setIcon(new ImageIcon(imagen5));
+        lOrder.setIcon(new ImageIcon(imagen5));
         ImageIcon icono6 = new ImageIcon(getClass().getResource("/picture/item.png"));
         Image imagen6 = icono6.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
-        lmisPedidos.setIcon(new ImageIcon(imagen6));
+        lMyOrder.setIcon(new ImageIcon(imagen6));
+        ImageIcon icono7 = new ImageIcon(getClass().getResource("/picture/CerSesion.png"));
+        Image imagen7 = icono7.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
+        botonExit.setIcon(new ImageIcon(imagen7));
+        ImageIcon icono8 = new ImageIcon(getClass().getResource("/picture/cubierto.png"));
+        Image imagen8 = icono8.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
+        ldetalle.setIcon(new ImageIcon(imagen8));
         
+        this.idWaiter = waiterController.findByName(name);
     }
     
     
@@ -61,8 +73,10 @@ public class viewMainWaiter extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         PanelContenedor = new javax.swing.JPanel();
-        PanelPrincipal = new javax.swing.JPanel();
+        PanelMain = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lPedido = new javax.swing.JLabel();
@@ -73,16 +87,41 @@ public class viewMainWaiter extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         lItems = new javax.swing.JLabel();
+        PanelOrder = new javax.swing.JPanel();
+        PanelMyOrder = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableOrder = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableOrder1 = new javax.swing.JTable();
+        ldetalle = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        lTotal = new javax.swing.JLabel();
         viewTop = new javax.swing.JPanel();
         lExit1 = new javax.swing.JLabel();
         viewMenu = new javax.swing.JPanel();
-        buttonTable = new javax.swing.JButton();
-        buttonMain = new javax.swing.JButton();
-        buttonWaiter = new javax.swing.JButton();
-        buttonOrder = new javax.swing.JButton();
-        lPrinci = new javax.swing.JLabel();
-        lpedido = new javax.swing.JLabel();
-        lmisPedidos = new javax.swing.JLabel();
+        botonOrder = new javax.swing.JButton();
+        botonMain = new javax.swing.JButton();
+        botonMyOrder = new javax.swing.JButton();
+        botonExit = new javax.swing.JButton();
+        lMain = new javax.swing.JLabel();
+        lOrder = new javax.swing.JLabel();
+        lMyOrder = new javax.swing.JLabel();
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -90,7 +129,7 @@ public class viewMainWaiter extends javax.swing.JFrame {
         PanelContenedor.setBackground(new java.awt.Color(255, 255, 255));
         PanelContenedor.setLayout(new java.awt.CardLayout());
 
-        PanelPrincipal.setBackground(new java.awt.Color(255, 255, 255));
+        PanelMain.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -122,37 +161,37 @@ public class viewMainWaiter extends javax.swing.JFrame {
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Mis Pedidos");
 
-        javax.swing.GroupLayout PanelPrincipalLayout = new javax.swing.GroupLayout(PanelPrincipal);
-        PanelPrincipal.setLayout(PanelPrincipalLayout);
-        PanelPrincipalLayout.setHorizontalGroup(
-            PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelPrincipalLayout.createSequentialGroup()
+        javax.swing.GroupLayout PanelMainLayout = new javax.swing.GroupLayout(PanelMain);
+        PanelMain.setLayout(PanelMainLayout);
+        PanelMainLayout.setHorizontalGroup(
+            PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelMainLayout.createSequentialGroup()
                 .addGap(95, 95, 95)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(159, 159, 159))
-            .addGroup(PanelPrincipalLayout.createSequentialGroup()
-                .addGroup(PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelPrincipalLayout.createSequentialGroup()
+            .addGroup(PanelMainLayout.createSequentialGroup()
+                .addGroup(PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelMainLayout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addGroup(PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
-                            .addGroup(PanelPrincipalLayout.createSequentialGroup()
-                                .addGroup(PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PanelPrincipalLayout.createSequentialGroup()
+                            .addGroup(PanelMainLayout.createSequentialGroup()
+                                .addGroup(PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PanelMainLayout.createSequentialGroup()
                                         .addGap(10, 10, 10)
                                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PanelPrincipalLayout.createSequentialGroup()
+                                .addGroup(PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PanelMainLayout.createSequentialGroup()
                                         .addGap(148, 148, 148)
                                         .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelPrincipalLayout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelMainLayout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(PanelPrincipalLayout.createSequentialGroup()
+                    .addGroup(PanelMainLayout.createSequentialGroup()
                         .addGap(115, 115, 115)
                         .addComponent(lPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -160,36 +199,121 @@ public class viewMainWaiter extends javax.swing.JFrame {
                         .addGap(98, 98, 98)))
                 .addGap(75, 75, 75))
         );
-        PanelPrincipalLayout.setVerticalGroup(
-            PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelPrincipalLayout.createSequentialGroup()
+        PanelMainLayout.setVerticalGroup(
+            PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelMainLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addGroup(PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelPrincipalLayout.createSequentialGroup()
+                .addGroup(PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelMainLayout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(lPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(28, 28, 28)
-                        .addGroup(PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
                             .addComponent(jButton2)))
-                    .addGroup(PanelPrincipalLayout.createSequentialGroup()
+                    .addGroup(PanelMainLayout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(lItems, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(141, Short.MAX_VALUE))
         );
 
-        PanelContenedor.add(PanelPrincipal, "principal");
+        PanelContenedor.add(PanelMain, "principal");
+
+        PanelOrder.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout PanelOrderLayout = new javax.swing.GroupLayout(PanelOrder);
+        PanelOrder.setLayout(PanelOrderLayout);
+        PanelOrderLayout.setHorizontalGroup(
+            PanelOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 670, Short.MAX_VALUE)
+        );
+        PanelOrderLayout.setVerticalGroup(
+            PanelOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 440, Short.MAX_VALUE)
+        );
+
+        PanelContenedor.add(PanelOrder, "card3");
+
+        PanelMyOrder.setBackground(new java.awt.Color(255, 255, 255));
+        PanelMyOrder.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel7.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Informacion del Pedido");
+        PanelMyOrder.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 14, -1, -1));
+
+        tableOrder.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tableOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableOrderMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableOrder);
+
+        PanelMyOrder.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(38, 58, 410, 346));
+
+        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel10.setText("No hay platos en el Pedido");
+        PanelMyOrder.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 100, -1, -1));
+
+        tableOrder1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Title 1"
+            }
+        ));
+        jScrollPane3.setViewportView(tableOrder1);
+
+        PanelMyOrder.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(496, 58, 168, 261));
+
+        ldetalle.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        ldetalle.setForeground(new java.awt.Color(0, 0, 0));
+        ldetalle.setText("Detalle del Pedido");
+        PanelMyOrder.add(ldetalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(511, 20, -1, -1));
+
+        jButton3.setBackground(new java.awt.Color(0, 141, 155));
+        jButton3.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 16)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Pagar");
+        PanelMyOrder.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(496, 368, 152, -1));
+
+        jLabel8.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 16)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel8.setText("Total:");
+        PanelMyOrder.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(496, 327, -1, -1));
+
+        lTotal.setBackground(new java.awt.Color(0, 141, 155));
+        lTotal.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        lTotal.setText("$   0");
+        PanelMyOrder.add(lTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, 90, -1));
+
+        PanelContenedor.add(PanelMyOrder, "card4");
 
         getContentPane().add(PanelContenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 670, 440));
 
@@ -224,123 +348,358 @@ public class viewMainWaiter extends javax.swing.JFrame {
         viewMenu.setBackground(new java.awt.Color(204, 204, 204));
         viewMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        buttonTable.setBackground(new java.awt.Color(204, 204, 204));
-        buttonTable.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        buttonTable.setForeground(new java.awt.Color(0, 0, 0));
-        buttonTable.setText("Tomar Pedido");
-        buttonTable.setBorder(null);
-        buttonTable.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        buttonTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        botonOrder.setBackground(new java.awt.Color(204, 204, 204));
+        botonOrder.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        botonOrder.setForeground(new java.awt.Color(0, 0, 0));
+        botonOrder.setText("Tomar Pedido");
+        botonOrder.setBorder(null);
+        botonOrder.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        botonOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                buttonTableMouseClicked(evt);
+                botonOrderMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botonOrderMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                botonOrderMouseExited(evt);
             }
         });
-        viewMenu.add(buttonTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 83, 96, 28));
+        viewMenu.add(botonOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 36, 96, 28));
 
-        buttonMain.setBackground(new java.awt.Color(204, 204, 204));
-        buttonMain.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        buttonMain.setForeground(new java.awt.Color(0, 0, 0));
-        buttonMain.setText("Principal");
-        buttonMain.setBorder(null);
-        buttonMain.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        buttonMain.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        buttonMain.addMouseListener(new java.awt.event.MouseAdapter() {
+        botonMain.setBackground(new java.awt.Color(204, 204, 204));
+        botonMain.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        botonMain.setForeground(new java.awt.Color(0, 0, 0));
+        botonMain.setText("Principal");
+        botonMain.setBorder(null);
+        botonMain.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botonMain.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        botonMain.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                buttonMainMouseClicked(evt);
+                botonMainMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botonMainMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                botonMainMouseExited(evt);
             }
         });
-        buttonMain.addActionListener(new java.awt.event.ActionListener() {
+        botonMain.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonMainActionPerformed(evt);
+                botonMainActionPerformed(evt);
             }
         });
-        viewMenu.add(buttonMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 90, 28));
+        viewMenu.add(botonMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 3, 96, 28));
 
-        buttonWaiter.setBackground(new java.awt.Color(204, 204, 204));
-        buttonWaiter.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        buttonWaiter.setForeground(new java.awt.Color(0, 0, 0));
-        buttonWaiter.setText("Mis Pedidos");
-        buttonWaiter.setBorder(null);
-        buttonWaiter.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        buttonWaiter.addMouseListener(new java.awt.event.MouseAdapter() {
+        botonMyOrder.setBackground(new java.awt.Color(204, 204, 204));
+        botonMyOrder.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        botonMyOrder.setForeground(new java.awt.Color(0, 0, 0));
+        botonMyOrder.setText("Mis Pedidos");
+        botonMyOrder.setBorder(null);
+        botonMyOrder.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        botonMyOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                buttonWaiterMouseClicked(evt);
+                botonMyOrderMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botonMyOrderMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                botonMyOrderMouseExited(evt);
             }
         });
-        buttonWaiter.addActionListener(new java.awt.event.ActionListener() {
+        botonMyOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonWaiterActionPerformed(evt);
+                botonMyOrderActionPerformed(evt);
             }
         });
-        viewMenu.add(buttonWaiter, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 117, 96, 28));
+        viewMenu.add(botonMyOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 72, 96, 28));
 
-        buttonOrder.setBackground(new java.awt.Color(204, 204, 204));
-        buttonOrder.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        buttonOrder.setForeground(new java.awt.Color(0, 0, 0));
-        buttonOrder.setText("Cerrar");
-        buttonOrder.setBorder(null);
-        buttonOrder.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        buttonOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+        botonExit.setBackground(new java.awt.Color(204, 204, 204));
+        botonExit.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        botonExit.setForeground(new java.awt.Color(0, 0, 0));
+        botonExit.setText("Cerrar");
+        botonExit.setBorder(null);
+        botonExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                buttonOrderMouseClicked(evt);
+                botonExitMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botonExitMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                botonExitMouseExited(evt);
             }
         });
-        viewMenu.add(buttonOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 406, 78, 28));
+        viewMenu.add(botonExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 413, 130, 28));
 
-        lPrinci.setBackground(new java.awt.Color(204, 204, 204));
-        lPrinci.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lPrinci.setOpaque(true);
-        viewMenu.add(lPrinci, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 49, 34, 28));
+        lMain.setBackground(new java.awt.Color(204, 204, 204));
+        lMain.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lMain.setOpaque(true);
+        lMain.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lMainMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lMainMouseExited(evt);
+            }
+        });
+        viewMenu.add(lMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 3, 34, 28));
 
-        lpedido.setBackground(new java.awt.Color(204, 204, 204));
-        lpedido.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lpedido.setOpaque(true);
-        viewMenu.add(lpedido, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 83, 34, 28));
+        lOrder.setBackground(new java.awt.Color(204, 204, 204));
+        lOrder.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lOrder.setOpaque(true);
+        lOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lOrderMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lOrderMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lOrderMouseExited(evt);
+            }
+        });
+        viewMenu.add(lOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 36, 34, 28));
 
-        lmisPedidos.setBackground(new java.awt.Color(204, 204, 204));
-        lmisPedidos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lmisPedidos.setOpaque(true);
-        viewMenu.add(lmisPedidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 117, 34, 28));
+        lMyOrder.setBackground(new java.awt.Color(204, 204, 204));
+        lMyOrder.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lMyOrder.setOpaque(true);
+        lMyOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lMyOrderMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lMyOrderMouseExited(evt);
+            }
+        });
+        viewMenu.add(lMyOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 72, 34, 28));
 
         getContentPane().add(viewMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 130, 440));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonMainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonMainMouseClicked
+    private void botonMainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonMainMouseClicked
         CardLayout cl = (CardLayout) PanelContenedor.getLayout();
         cl.show(PanelContenedor, "mainStatistics");
-    }//GEN-LAST:event_buttonMainMouseClicked
+    }//GEN-LAST:event_botonMainMouseClicked
 
-    private void buttonTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonTableMouseClicked
+    private void botonOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonOrderMouseClicked
         CardLayout cl = (CardLayout) PanelContenedor.getLayout();
         cl.show(PanelContenedor, "tableManagement");
-    }//GEN-LAST:event_buttonTableMouseClicked
+    }//GEN-LAST:event_botonOrderMouseClicked
 
-    private void buttonWaiterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonWaiterMouseClicked
+    private void botonMyOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonMyOrderMouseClicked
         CardLayout cl = (CardLayout) PanelContenedor.getLayout();
         cl.show(PanelContenedor, "waiterManagement");
-    }//GEN-LAST:event_buttonWaiterMouseClicked
+    }//GEN-LAST:event_botonMyOrderMouseClicked
 
-    private void buttonOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonOrderMouseClicked
+    private void botonExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonExitMouseClicked
         CardLayout cl = (CardLayout) PanelContenedor.getLayout();
         cl.show(PanelContenedor, "orderManagement");
-    }//GEN-LAST:event_buttonOrderMouseClicked
+    }//GEN-LAST:event_botonExitMouseClicked
 
     private void lExit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lExit1MouseClicked
         System.exit(0); 
     }//GEN-LAST:event_lExit1MouseClicked
 
-    private void buttonWaiterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonWaiterActionPerformed
+    private void botonMyOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMyOrderActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_buttonWaiterActionPerformed
+        CardLayout cl = (CardLayout) PanelContenedor.getLayout();
+        cl.show(PanelContenedor, "card4");
+        loadTableOrder();
+    }//GEN-LAST:event_botonMyOrderActionPerformed
 
-    private void buttonMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMainActionPerformed
+    private void botonMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMainActionPerformed
         // TODO add your handling code here:
         CardLayout cl = (CardLayout) PanelContenedor.getLayout();
         cl.show(PanelContenedor, "principal");
-    }//GEN-LAST:event_buttonMainActionPerformed
+    }//GEN-LAST:event_botonMainActionPerformed
 
+    private void lMainMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lMainMouseEntered
+        // TODO add your handling code here:
+        lMain.setBackground(Color.decode("#008D9B"));
+        botonMain.setBackground(Color.decode("#008D9B"));
+    }//GEN-LAST:event_lMainMouseEntered
+
+    private void lMainMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lMainMouseExited
+        // TODO add your handling code here:
+        lMain.setBackground(Color.decode("#CCCCCC"));
+        botonMain.setBackground(Color.decode("#CCCCCC"));
+    }//GEN-LAST:event_lMainMouseExited
+
+    private void lOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lOrderMouseClicked
+        // TODO add your handling code here:
+        botonOrder.doClick();
+    }//GEN-LAST:event_lOrderMouseClicked
+
+    private void lOrderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lOrderMouseEntered
+        // TODO add your handling code here:
+        lOrder.setBackground(Color.decode("#008D9B"));
+        botonOrder.setBackground(Color.decode("#008D9B"));
+    }//GEN-LAST:event_lOrderMouseEntered
+
+    private void lOrderMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lOrderMouseExited
+        // TODO add your handling code here:
+        lOrder.setBackground(Color.decode("#CCCCCC"));
+        botonOrder.setBackground(Color.decode("#CCCCCC"));
+    }//GEN-LAST:event_lOrderMouseExited
+
+    private void lMyOrderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lMyOrderMouseEntered
+        // TODO add your handling code here:
+        lMyOrder.setBackground(Color.decode("#008D9B"));
+        botonMyOrder.setBackground(Color.decode("#008D9B"));
+    }//GEN-LAST:event_lMyOrderMouseEntered
+
+    private void lMyOrderMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lMyOrderMouseExited
+        // TODO add your handling code here:
+        lMyOrder.setBackground(Color.decode("#CCCCCC"));
+        botonMyOrder.setBackground(Color.decode("#CCCCCC"));
+    }//GEN-LAST:event_lMyOrderMouseExited
+
+    private void botonMainMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonMainMouseEntered
+        // TODO add your handling code here:
+        lMain.setBackground(Color.decode("#008D9B"));
+        botonMain.setBackground(Color.decode("#008D9B"));
+    }//GEN-LAST:event_botonMainMouseEntered
+
+    private void botonMainMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonMainMouseExited
+        // TODO add your handling code here:
+         lMain.setBackground(Color.decode("#CCCCCC"));
+        botonMain.setBackground(Color.decode("#CCCCCC"));
+    }//GEN-LAST:event_botonMainMouseExited
+
+    private void botonOrderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonOrderMouseEntered
+        // TODO add your handling code here:
+        lOrder.setBackground(Color.decode("#008D9B"));
+        botonOrder.setBackground(Color.decode("#008D9B"));
+    }//GEN-LAST:event_botonOrderMouseEntered
+
+    private void botonOrderMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonOrderMouseExited
+        // TODO add your handling code here:
+        lOrder.setBackground(Color.decode("#CCCCCC"));
+        botonOrder.setBackground(Color.decode("#CCCCCC"));
+    }//GEN-LAST:event_botonOrderMouseExited
+
+    private void botonMyOrderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonMyOrderMouseEntered
+        // TODO add your handling code here:
+        lMyOrder.setBackground(Color.decode("#008D9B"));
+        botonMyOrder.setBackground(Color.decode("#008D9B"));
+    }//GEN-LAST:event_botonMyOrderMouseEntered
+
+    private void botonMyOrderMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonMyOrderMouseExited
+        // TODO add your handling code here:
+        lMyOrder.setBackground(Color.decode("#CCCCCC"));
+        botonMyOrder.setBackground(Color.decode("#CCCCCC"));
+    }//GEN-LAST:event_botonMyOrderMouseExited
+
+    private void botonExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonExitMouseEntered
+        // TODO add your handling code here:
+        botonExit.setBackground(Color.decode("#FF6666"));
+        botonExit.setForeground(Color.white);
+    }//GEN-LAST:event_botonExitMouseEntered
+
+    private void botonExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonExitMouseExited
+        // TODO add your handling code here:
+        botonExit.setBackground(Color.decode("#CCCCCC"));
+        botonExit.setForeground(Color.BLACK);
+    }//GEN-LAST:event_botonExitMouseExited
+
+    private void tableOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableOrderMouseClicked
+        // TODO add your handling code here:
+        int fila = tableOrder.getSelectedRow();
+        String state = tableOrder.getValueAt(fila,2).toString();
+        if(state.equals("Activo")) {
+            int idOrder = Integer.parseInt(tableOrder.getValueAt(fila, 0).toString());
+            lTotal.setText("$   " + tableOrder.getValueAt(fila, 3).toString());
+            loadTableOrderClick(idOrder);
+        }
+    }//GEN-LAST:event_tableOrderMouseClicked
+    
+    private void loadTableOrder(){
+        List<orderTableDTO> lista = orderController.findByIdWaiter(idWaiter);
+        String[] columnas = {"Numero","Mesa","Estado","Total"};
+        DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (orderTableDTO order : lista) {
+            String state = "Inactivo";
+            if(order.isState())state = "Activo";
+            Object[] filas = {
+                    order.getIdOrder(),
+                    order.getIdTable(),
+                    state,
+                    order.getTotal()
+            };
+            tabla.addRow(filas);
+        }
+        tableOrder.setModel(tabla);
+        applyTableStyle(tableOrder);
+    }
+    
+    private void loadTableOrderClick(int idOrder){
+        List<orderTableDTO> lista = orderController.findByIdWaiter(idWaiter);
+        String[] columnas = {"Numero","Mesa","Estado","Total"};
+        DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (orderTableDTO order : lista) {
+            String state = "Inactivo";
+            if(order.isState())state = "Activo";
+            Object[] filas = {
+                    order.getIdOrder(),
+                    order.getIdTable(),
+                    state,
+                    order.getTotal()
+            };
+            tabla.addRow(filas);
+        }
+        tableOrder.setModel(tabla);
+        applyTableStyle(tableOrder);
+    }
+    
+    public void applyTableStyle(JTable tabla) {
+
+        JTableHeader header = tabla.getTableHeader();
+        header.setOpaque(false);
+        header.setBackground(Color.decode("#008D9B"));
+        header.setForeground(Color.WHITE);
+        header.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 14));
+
+        tabla.setShowGrid(false);
+        tabla.setIntercellSpacing(new Dimension(0, 0));
+
+        tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus,
+                    int row, int column) {
+
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                Color par = Color.WHITE;
+                Color impar = Color.decode("#CCCCCC");
+
+                if (!isSelected) {
+                    c.setBackground(row % 2 == 0 ? par : impar);
+                    c.setForeground(Color.BLACK);
+                } else {
+                    c.setBackground(new Color(0, 120, 215));
+                    c.setForeground(Color.WHITE);
+                }
+
+                return c;
+            }
+        });
+    }
     /**
      * @param args the command line arguments
      */
@@ -378,25 +737,39 @@ public class viewMainWaiter extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelContenedor;
-    private javax.swing.JPanel PanelPrincipal;
-    private javax.swing.JButton buttonMain;
-    private javax.swing.JButton buttonOrder;
-    private javax.swing.JButton buttonTable;
-    private javax.swing.JButton buttonWaiter;
+    private javax.swing.JPanel PanelMain;
+    private javax.swing.JPanel PanelMyOrder;
+    private javax.swing.JPanel PanelOrder;
+    private javax.swing.JButton botonExit;
+    private javax.swing.JButton botonMain;
+    private javax.swing.JButton botonMyOrder;
+    private javax.swing.JButton botonOrder;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lExit1;
     private javax.swing.JLabel lItems;
+    private javax.swing.JLabel lMain;
+    private javax.swing.JLabel lMyOrder;
+    private javax.swing.JLabel lOrder;
     private javax.swing.JLabel lPedido;
-    private javax.swing.JLabel lPrinci;
-    private javax.swing.JLabel lmisPedidos;
-    private javax.swing.JLabel lpedido;
+    private javax.swing.JLabel lTotal;
+    private javax.swing.JLabel ldetalle;
+    private javax.swing.JTable tableOrder;
+    private javax.swing.JTable tableOrder1;
     private javax.swing.JPanel viewMenu;
     private javax.swing.JPanel viewTop;
     // End of variables declaration//GEN-END:variables

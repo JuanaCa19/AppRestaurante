@@ -10,4 +10,6 @@ public interface IOrderDishDAO {
     public void saveOrderDish(OrderDish orderDish);
 
     public List<OrderDish> listOrderDish();
+
+    public List<Dish> findByIdOrder(int idOrder);
 }

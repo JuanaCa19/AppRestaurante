@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class selectWaiter extends javax.swing.JFrame {
     
+    
     private WaiterController waitController = new WaiterController();
     /**
      * Creates new form selectWaiter
@@ -182,16 +183,15 @@ public class selectWaiter extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String name = comboWaiter.getSelectedItem().toString();
-        if(!name.equals("Seleccione un mesero")){
-            
-        }else{
+        if (!name.equals("Seleccione un mesero")) {
+            viewMainWaiter waiter = new viewMainWaiter(name);
+            waiter.setVisible(true);
+            this.setVisible(false);
+        } else {
             JOptionPane.showMessageDialog(null, "Seleccione un Mesero!!");
-            return; 
         }
         
-        viewMainWaiter waiter = new viewMainWaiter(); 
-        waiter.setVisible(true);
-        this.setVisible(false);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -9,4 +9,6 @@ public interface IWaiterDAO {
     public void saveWaiter(Waiter waiter);
 
     public List<Waiter> listWaiter();
+
+    public int findByName(String name);
 }
