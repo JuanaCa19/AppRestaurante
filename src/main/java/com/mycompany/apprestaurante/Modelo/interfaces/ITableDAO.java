@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ITableDAO {
 
-    public void saveTable(Table table);
+    public boolean saveTable(Table table);
 
     public List<Table> listTable();
 

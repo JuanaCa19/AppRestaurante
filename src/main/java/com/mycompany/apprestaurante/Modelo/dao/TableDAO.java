@@ -5,6 +5,8 @@ import com.mycompany.apprestaurante.Modelo.entities.Table;
 import com.mycompany.apprestaurante.Modelo.interfaces.ITableDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -17,34 +19,56 @@ public class TableDAO implements ITableDAO {
     }
 
     @Override
-    public void saveTable(Table table) {
-//        Connection con = conexion. getConnection();
-//
-//        PreparedStatement ps;
-//        String sql = "INSERT INTO  tables(modelo, talla,color, Stock,precio)values(?,?,?,?,?)";
-//        try {
-//            ps = con.prepareStatement(sql);
-//            ps.setString(1, product.getModelo());
-//            ps.setInt(2, product.getTalla());
-//            ps.setString(3, product.getColor());
-//            ps.setInt(4, product.getStock());
-//            ps.setDouble(5, product.getPrecio());
-//            ps.execute();
-//            return true;
-//        } catch (Exception e) {
-//            System.out.println("Error al ingresar documento" + e.getMessage());
-//        } finally {
-//            try {
-//                con.close();
-//            } catch (Exception e) {
-//                System.out.println("Error al cerrar la conexion" + e.getMessage());
-//            }
-//        }
-//        return false;
+    public boolean saveTable(Table table) {
+        Connection con = conexion. getConnection();
+
+        PreparedStatement ps;
+        String sql = "INSERT INTO  tables(capacity, availade)values(?,?)";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, table.getCapacity());
+            ps.setString(2, table.getAvailade());
+            ps.execute();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error al ingresar mesa" + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                System.out.println("Error al cerrar la conexion de mesa" + e.getMessage());
+            }
+        }
+        return false;
     }
 
     @Override
     public List<Table> listTable() {
-        return List.of();
+        List<Table> lista = new ArrayList<>();
+        Connection con = conexion.getConnection();
+        PreparedStatement ps;
+        ResultSet rs;
+        String sql = "SELECT * FROM tables";
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Table table = new Table();
+                table.setId(rs.getInt("id"));
+                table.setCapacity(rs.getInt("capacity"));
+                table.setAvailade(rs.getString("availade"));
+                lista.add(table);
+            }
+            return lista;
+        } catch (Exception e) {
+            System.out.println("Error al listar tabla" + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                System.out.println("Error al cerrar la conexion" + e.getMessage());
+            }
+        }
+        return null;
     }
 }

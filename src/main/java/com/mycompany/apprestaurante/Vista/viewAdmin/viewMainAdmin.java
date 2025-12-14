@@ -4,6 +4,15 @@
  */
 package com.mycompany.apprestaurante.Vista.viewAdmin;
 
+import com.mycompany.apprestaurante.Modelo.dao.DishDAO;
+import com.mycompany.apprestaurante.Modelo.dao.TableDAO;
+import com.mycompany.apprestaurante.Modelo.dao.WaiterDAO;
+import com.mycompany.apprestaurante.Modelo.entities.Dish;
+import com.mycompany.apprestaurante.Modelo.entities.Table;
+import com.mycompany.apprestaurante.Modelo.entities.Waiter;
+import com.mycompany.apprestaurante.Modelo.interfaces.IDishDAO;
+import com.mycompany.apprestaurante.Modelo.interfaces.ITableDAO;
+import com.mycompany.apprestaurante.Modelo.interfaces.IWaiterDAO;
 import com.mycompany.apprestaurante.Vista.Login.login;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -11,9 +20,11 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -26,9 +37,8 @@ public class viewMainAdmin extends javax.swing.JFrame {
      * Creates new form viewMainAdmin
      */
     /**
-     * labelCurrentOccupation= porcentaje de ocupacion 
-     * listTables= tabla de  mesas 
-     * tableShowWaiter= tabla meseros
+     * labelCurrentOccupation= porcentaje de ocupacion listTables= tabla de
+     * mesas tableShowWaiter= tabla meseros
      *
      */
     public viewMainAdmin() {
@@ -43,10 +53,13 @@ public class viewMainAdmin extends javax.swing.JFrame {
     }
 
     public void loadTable() {
+        viewTable();
+        viewWaiter();
+        viewDish(); 
         applyTableStyle(listTables);
         applyTableStyle(tableShowWaiter);
-        applyTableStyle(tableDish); 
-        applyTableStyle(tableOrder); 
+        applyTableStyle(tableDish);
+        applyTableStyle(tableOrder);
     }
 
     public void applyTableStyle(JTable tabla) {
@@ -84,6 +97,72 @@ public class viewMainAdmin extends javax.swing.JFrame {
         });
     }
 
+    public void viewTable() {
+        ITableDAO tableDAO = new TableDAO();
+        List<Table> lista = tableDAO.listTable();
+        String[] columnas = {"ID", "Capacidad", "Estado"};
+        DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (Table table : lista) {
+            Object[] filas = {
+                table.getId(),
+                table.getCapacity(),
+                table.getAvailade()
+            };
+            tabla.addRow(filas);
+        }
+        listTables.setModel(tabla);
+
+    }
+
+    public void viewWaiter() {
+        IWaiterDAO dao = new WaiterDAO();
+        List<Waiter> lista = dao.listWaiter();
+        String[] columnas = {"ID", "Nombre", "Telefono"};
+        DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (Waiter waiter : lista) {
+            Object[] filas = {
+                waiter.getId(),
+                waiter.getName(),
+                waiter.getPhone()
+            };
+            tabla.addRow(filas);
+        }
+        tableShowWaiter.setModel(tabla);
+
+    }
+    
+    
+    public void viewDish() {
+        IDishDAO dao = new DishDAO();
+        List<Dish> lista = dao.listDish();
+        String[] columnas = {"ID", "Nombre", "Precio"};
+        DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (Dish dish : lista) {
+            Object[] filas = {
+                dish.getId(),
+                dish.getNombre(),
+                dish.getPrice()
+            };
+            tabla.addRow(filas);
+        }
+        tableDish.setModel(tabla);
+
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -844,14 +923,14 @@ public class viewMainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_searchDishFocusGained
 
     private void searchDishFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchDishFocusLost
-          if (searchDish.getText().isEmpty()) {
+        if (searchDish.getText().isEmpty()) {
             searchDish.setText("Buscar Plato");
         }
     }//GEN-LAST:event_searchDishFocusLost
 
     private void buttonAddDishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddDishActionPerformed
-       dishForm dish = new dishForm(); 
-       dish.setVisible(true);
+        dishForm dish = new dishForm();
+        dish.setVisible(true);
     }//GEN-LAST:event_buttonAddDishActionPerformed
 
     /**

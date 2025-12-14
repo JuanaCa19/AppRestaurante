@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IDishDAO {
 
-    public void saveDish(Dish dish);
+    public boolean saveDish(Dish dish);
 
     public List<Dish> listDish();
 }
