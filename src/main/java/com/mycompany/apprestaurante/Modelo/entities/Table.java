@@ -3,22 +3,22 @@ package com.mycompany.apprestaurante.Modelo.entities;
 public class Table {
     private int id;
     private int capacity;
-    private boolean availade; 
+    private boolean state;
     public Table() {
     }
 
     public Table( int capacity, boolean availade) {
 
         this.capacity = capacity;
-        this.availade = availade;
+        this.state = availade;
     }
 
-    public boolean isAvailade() {
-        return availade;
+    public boolean isState() {
+        return state;
     }
 
-    public void setAvailade(boolean availade) {
-        this.availade = availade;
+    public void setState(boolean state) {
+        this.state = state;
     }
 
     

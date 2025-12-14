@@ -103,7 +103,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
         };
         for (Table table : lista) {
             String state = "Inactivo"; 
-            if(table.isAvailade()){
+            if(table.isState()){
                 state = "Activo"; 
             }
             Object[] filas = {

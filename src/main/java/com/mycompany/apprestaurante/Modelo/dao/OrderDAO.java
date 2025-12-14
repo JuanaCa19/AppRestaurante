@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.mycompany.apprestaurante.Modelo.connectionBD.connection.getConnection;
+import com.mycompany.apprestaurante.Modelo.entities.Dish;
 
 public class OrderDAO implements IOrderDAO {
     @Override
@@ -31,11 +32,8 @@ public class OrderDAO implements IOrderDAO {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Dish dish = new Dish();
-                dish.setId(rs.getInt("id"));
-                dish.setNombre(rs.getString("nombre"));
-                dish.setPrice(rs.getDouble("precio"));
-                lista.add(dish);
+                Order order = new Order();
+                
             }
             return lista;
         } catch (Exception e) {
@@ -49,7 +47,7 @@ public class OrderDAO implements IOrderDAO {
         }
         return null;
     }
-    }
+    
 
     @Override
     public List<orderTableDTO> findByIdWaiter(int idWaiter) {

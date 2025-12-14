@@ -1,11 +1,12 @@
 package com.mycompany.apprestaurante.Modelo.dao;
 
-import com.mycompany.apprestaurante.Modelo.connectionBD.connection;
+import static com.mycompany.apprestaurante.Modelo.connectionBD.connection.getConnection;
 import com.mycompany.apprestaurante.Modelo.entities.Table;
 import com.mycompany.apprestaurante.Modelo.interfaces.ITableDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -20,11 +21,11 @@ public class TableDAO implements ITableDAO {
         Connection con = getConnection();
 
         PreparedStatement ps;
-        String sql = "INSERT INTO  tables(capacity, state)values(?,?)";
+        String sql = "INSERT INTO tables(capacity, state)values(?,?)";
         try {
             ps = con.prepareStatement(sql);
             ps.setInt(1, table.getCapacity());
-            ps.setBoolean(2, table.isAvailade());
+            ps.setBoolean(2, table.isState());
             ps.execute();
             return true;
         } catch (SQLException e) {
@@ -53,7 +54,7 @@ public class TableDAO implements ITableDAO {
                 Table table = new Table();
                 table.setId(rs.getInt("id"));
                 table.setCapacity(rs.getInt("capacity"));
-                table.setAvailade(rs.getBoolean("state"));
+                table.setState(rs.getBoolean("state"));
                 lista.add(table);
             }
             return lista;
@@ -67,5 +68,26 @@ public class TableDAO implements ITableDAO {
             }
         }
         return null;
+    }
+
+    @Override
+    public void modifyTable(int idTable) {
+        Connection con = getConnection();
+        PreparedStatement ps;
+        String sql = "UPDATE tables set state = ? WHERE id = ?";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setBoolean(1, false);
+            ps.setInt(2, idTable);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println("Error al ingresar mesa" + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexion de mesa" + e.getMessage());
+            }
+        }
     }
 }

@@ -9,13 +9,17 @@ package com.mycompany.apprestaurante.Vista.viewWaiter;
 
 import com.mycompany.apprestaurante.Controlador.orderController.OrderController;
 import com.mycompany.apprestaurante.Controlador.orderDishController.OrderDishController;
+import com.mycompany.apprestaurante.Controlador.tableController.TableController;
 import com.mycompany.apprestaurante.Controlador.waiterController.WaiterController;
 import com.mycompany.apprestaurante.Modelo.dto.orderTableDTO;
 import com.mycompany.apprestaurante.Modelo.entities.Dish;
+import com.mycompany.apprestaurante.Modelo.entities.Table;
+import com.mycompany.apprestaurante.Vista.Login.selectWaiter;
 import com.mycompany.apprestaurante.Vista.viewAdmin.tableForm;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -88,11 +92,11 @@ public class viewMainWaiter extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         lItems = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
         PanelOrder = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableTable = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         PanelMyOrder = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -159,16 +163,21 @@ public class viewMainWaiter extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(0, 141, 155));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Tomar Pedido");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setForeground(new java.awt.Color(153, 153, 153));
         jLabel6.setText("<html><div style='text-align:center;'>Revisa y gestiona el<br>estado de tus pedidos activos</div></html>");
 
-        jButton2.setBackground(new java.awt.Color(0, 141, 155));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Mis Pedidos");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButton4.setBackground(new java.awt.Color(0, 141, 155));
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Mis Pedidos");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButton4ActionPerformed(evt);
             }
         });
 
@@ -201,7 +210,7 @@ public class viewMainWaiter extends javax.swing.JFrame {
                                         .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelMainLayout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(PanelMainLayout.createSequentialGroup()
                         .addGap(115, 115, 115)
                         .addComponent(lPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -232,7 +241,7 @@ public class viewMainWaiter extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addGroup(PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
-                            .addComponent(jButton2)))
+                            .addComponent(jButton4)))
                     .addGroup(PanelMainLayout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(lItems, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -243,7 +252,7 @@ public class viewMainWaiter extends javax.swing.JFrame {
 
         PanelOrder.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -254,7 +263,7 @@ public class viewMainWaiter extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane4.setViewportView(jTable1);
+        jScrollPane4.setViewportView(tableTable);
 
         jLabel9.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
@@ -323,7 +332,7 @@ public class viewMainWaiter extends javax.swing.JFrame {
                 {null}
             },
             new String [] {
-                "Title 1"
+                "Nombre"
             }
         ));
         jScrollPane3.setViewportView(tableOrder1);
@@ -406,6 +415,11 @@ public class viewMainWaiter extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 botonOrderMouseExited(evt);
+            }
+        });
+        botonOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonOrderActionPerformed(evt);
             }
         });
         viewMenu.add(botonOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 36, 96, 28));
@@ -526,22 +540,30 @@ public class viewMainWaiter extends javax.swing.JFrame {
 
     private void botonMainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonMainMouseClicked
         CardLayout cl = (CardLayout) PanelContenedor.getLayout();
-        cl.show(PanelContenedor, "mainStatistics");
+        cl.show(PanelContenedor, "Principal");
     }//GEN-LAST:event_botonMainMouseClicked
 
     private void botonOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonOrderMouseClicked
         CardLayout cl = (CardLayout) PanelContenedor.getLayout();
-        cl.show(PanelContenedor, "tableManagement");
+        cl.show(PanelContenedor, "card3");
+        loadTable();
     }//GEN-LAST:event_botonOrderMouseClicked
 
     private void botonMyOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonMyOrderMouseClicked
         CardLayout cl = (CardLayout) PanelContenedor.getLayout();
-        cl.show(PanelContenedor, "waiterManagement");
+        cl.show(PanelContenedor, "card4");
+        DefaultTableModel model = (DefaultTableModel) tableOrder1.getModel();
+        model.setRowCount(0);
+        lTotal.setText("$  0");
+        applyTableStyle(tableOrder1);
+        loadTableOrder();
+        
     }//GEN-LAST:event_botonMyOrderMouseClicked
 
     private void botonExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonExitMouseClicked
-        CardLayout cl = (CardLayout) PanelContenedor.getLayout();
-        cl.show(PanelContenedor, "orderManagement");
+       this.setVisible(false);
+       selectWaiter vista = new selectWaiter();
+       vista.setVisible(true);
     }//GEN-LAST:event_botonExitMouseClicked
 
     private void lExit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lExit1MouseClicked
@@ -667,13 +689,43 @@ public class viewMainWaiter extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        if(this.idTable != 0){
+        if (this.idTable != 0) {
             tableController.modifyTable(this.idTable);
-        }else{
+            JOptionPane.showMessageDialog(null, "Pedido Pagado con exito");
+            DefaultTableModel model = (DefaultTableModel) tableOrder1.getModel();
+            model.setRowCount(0);
+            lTotal.setText("$  0");
+            loadTableOrder();
+        } else {
             JOptionPane.showMessageDialog(null, "Seleccione un Pedido a Pagar!!");
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void botonOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonOrderActionPerformed
+        // TODO add your handling code here:
+        CardLayout cl = (CardLayout) PanelContenedor.getLayout();
+        cl.show(PanelContenedor, "card3");
+        loadTable();
+    }//GEN-LAST:event_botonOrderActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        CardLayout cl = (CardLayout) PanelContenedor.getLayout();
+        cl.show(PanelContenedor, "card4");
+        DefaultTableModel model = (DefaultTableModel) tableOrder1.getModel();
+        model.setRowCount(0);
+        lTotal.setText("$  0");
+        applyTableStyle(tableOrder1);
+        loadTableOrder();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+         CardLayout cl = (CardLayout) PanelContenedor.getLayout();
+        cl.show(PanelContenedor, "card3");
+        loadTable();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void loadTableOrder(){
         List<orderTableDTO> lista = orderController.findByIdWaiter(idWaiter);
@@ -728,15 +780,17 @@ public class viewMainWaiter extends javax.swing.JFrame {
             }
         };
         for (Table table : lista) {
+            String state = "Ocupado";
+            if(!table.isState())state = "Disponible";
             Object[] filas = {
                     table.getId(),
                     table.getCapacity(),
-                    table.getState()
+                    state
             };
             tabla.addRow(filas);
         }
-        tableOrder1.setModel(tabla);
-        applyTableStyle(tableOrder1);
+        tableTable.setModel(tabla);
+        applyTableStyle(tableTable);
     }
     public void applyTableStyle(JTable tabla) {
 
@@ -817,8 +871,8 @@ public class viewMainWaiter extends javax.swing.JFrame {
     private javax.swing.JButton botonMyOrder;
     private javax.swing.JButton botonOrder;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -833,7 +887,6 @@ public class viewMainWaiter extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JLabel lExit1;
     private javax.swing.JLabel lItems;
@@ -845,6 +898,7 @@ public class viewMainWaiter extends javax.swing.JFrame {
     private javax.swing.JLabel ldetalle;
     private javax.swing.JTable tableOrder;
     private javax.swing.JTable tableOrder1;
+    private javax.swing.JTable tableTable;
     private javax.swing.JPanel viewMenu;
     private javax.swing.JPanel viewTop;
     // End of variables declaration//GEN-END:variables
