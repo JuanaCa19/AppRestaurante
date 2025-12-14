@@ -5,12 +5,15 @@
 package com.mycompany.apprestaurante.Vista.viewAdmin;
 
 import com.mycompany.apprestaurante.Modelo.dao.DishDAO;
+import com.mycompany.apprestaurante.Modelo.dao.OrderDAO;
 import com.mycompany.apprestaurante.Modelo.dao.TableDAO;
 import com.mycompany.apprestaurante.Modelo.dao.WaiterDAO;
 import com.mycompany.apprestaurante.Modelo.entities.Dish;
+import com.mycompany.apprestaurante.Modelo.entities.Order;
 import com.mycompany.apprestaurante.Modelo.entities.Table;
 import com.mycompany.apprestaurante.Modelo.entities.Waiter;
 import com.mycompany.apprestaurante.Modelo.interfaces.IDishDAO;
+import com.mycompany.apprestaurante.Modelo.interfaces.IOrderDAO;
 import com.mycompany.apprestaurante.Modelo.interfaces.ITableDAO;
 import com.mycompany.apprestaurante.Modelo.interfaces.IWaiterDAO;
 import com.mycompany.apprestaurante.Vista.Login.login;
@@ -49,12 +52,10 @@ public class viewMainAdmin extends javax.swing.JFrame {
         ImageIcon icono1 = new ImageIcon(getClass().getResource("/picture/Exit1.png"));
         Image imagen1 = icono1.getImage().getScaledInstance(lExit1.getWidth(), lExit1.getHeight(), Image.SCALE_SMOOTH);
         lExit1.setIcon(new ImageIcon(imagen1));
-        loadTable();
+
     }
 
-    public void loadTable() {
-        applyTableStyle(tableOrder);
-    }
+
 
     public void applyTableStyle(JTable tabla) {
 
@@ -115,6 +116,8 @@ public class viewMainAdmin extends javax.swing.JFrame {
         }
         listTables.setModel(tabla);
         applyTableStyle(listTables);
+        listTables.getTableHeader().setResizingAllowed(false);
+        listTables.getTableHeader().setReorderingAllowed(false);
     }
 
     public void viewWaiter() {
@@ -137,6 +140,8 @@ public class viewMainAdmin extends javax.swing.JFrame {
         }
         tableShowWaiter.setModel(tabla);
         applyTableStyle(tableShowWaiter);
+        tableShowWaiter.getTableHeader().setResizingAllowed(false);
+        tableShowWaiter.getTableHeader().setReorderingAllowed(false);
     }
     
     
@@ -160,6 +165,34 @@ public class viewMainAdmin extends javax.swing.JFrame {
         }
         tableDish.setModel(tabla);
         applyTableStyle(tableDish);
+        tableDish.getTableHeader().setResizingAllowed(false);
+        tableDish.getTableHeader().setReorderingAllowed(false);
+    }
+    
+    public void viewOrder(){
+        IOrderDAO dao = new OrderDAO();
+        List<Order> lista = dao.listOrder();
+        String[] columnas = {"ID", "Dia del pedido", "Mesa", "ID mesero","Total"};
+        DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (Order order : lista) {
+            Object[] filas = {
+                order.getId(),
+                order.getDateOrder(),
+                order.getIdTable(),
+                order.getIdWaiter(),
+                order.getTotal()
+            };
+            tabla.addRow(filas);
+        }
+        tableOrder.setModel(tabla);
+        applyTableStyle(tableOrder);
+        tableOrder.getTableHeader().setResizingAllowed(false);
+        tableOrder.getTableHeader().setReorderingAllowed(false);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -222,6 +255,11 @@ public class viewMainAdmin extends javax.swing.JFrame {
         buttonDish = new javax.swing.JButton();
         buttonOrder = new javax.swing.JButton();
         buttonExti = new javax.swing.JButton();
+        lPrinci = new javax.swing.JLabel();
+        lPrinci1 = new javax.swing.JLabel();
+        lPrinci2 = new javax.swing.JLabel();
+        lPrinci3 = new javax.swing.JLabel();
+        lPrinci4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -744,6 +782,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
         getContentPane().add(viewTop, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 80));
 
         viewMenu.setBackground(new java.awt.Color(204, 204, 204));
+        viewMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         buttonMain.setBackground(new java.awt.Color(204, 204, 204));
         buttonMain.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
@@ -751,11 +790,18 @@ public class viewMainAdmin extends javax.swing.JFrame {
         buttonMain.setText("Principal");
         buttonMain.setBorder(null);
         buttonMain.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buttonMain.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         buttonMain.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonMainMouseClicked(evt);
             }
         });
+        buttonMain.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonMainActionPerformed(evt);
+            }
+        });
+        viewMenu.add(buttonMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 49, 76, 28));
 
         buttonTable.setBackground(new java.awt.Color(204, 204, 204));
         buttonTable.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
@@ -763,11 +809,13 @@ public class viewMainAdmin extends javax.swing.JFrame {
         buttonTable.setText("Mesas");
         buttonTable.setBorder(null);
         buttonTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buttonTable.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         buttonTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonTableMouseClicked(evt);
             }
         });
+        viewMenu.add(buttonTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 83, 76, 28));
 
         buttonWaiter.setBackground(new java.awt.Color(204, 204, 204));
         buttonWaiter.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
@@ -775,6 +823,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
         buttonWaiter.setText("Meseros");
         buttonWaiter.setBorder(null);
         buttonWaiter.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buttonWaiter.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         buttonWaiter.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonWaiterMouseClicked(evt);
@@ -785,6 +834,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
                 buttonWaiterActionPerformed(evt);
             }
         });
+        viewMenu.add(buttonWaiter, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 117, 76, 28));
 
         buttonDish.setBackground(new java.awt.Color(204, 204, 204));
         buttonDish.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
@@ -792,11 +842,13 @@ public class viewMainAdmin extends javax.swing.JFrame {
         buttonDish.setText("Platos");
         buttonDish.setBorder(null);
         buttonDish.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buttonDish.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         buttonDish.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonDishMouseClicked(evt);
             }
         });
+        viewMenu.add(buttonDish, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 151, 76, 28));
 
         buttonOrder.setBackground(new java.awt.Color(204, 204, 204));
         buttonOrder.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
@@ -804,11 +856,13 @@ public class viewMainAdmin extends javax.swing.JFrame {
         buttonOrder.setText("Pedidos");
         buttonOrder.setBorder(null);
         buttonOrder.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buttonOrder.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         buttonOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonOrderMouseClicked(evt);
             }
         });
+        viewMenu.add(buttonOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 185, 76, 28));
 
         buttonExti.setBackground(new java.awt.Color(204, 204, 204));
         buttonExti.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
@@ -821,44 +875,32 @@ public class viewMainAdmin extends javax.swing.JFrame {
                 buttonExtiActionPerformed(evt);
             }
         });
+        viewMenu.add(buttonExti, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 110, -1));
 
-        javax.swing.GroupLayout viewMenuLayout = new javax.swing.GroupLayout(viewMenu);
-        viewMenu.setLayout(viewMenuLayout);
-        viewMenuLayout.setHorizontalGroup(
-            viewMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(viewMenuLayout.createSequentialGroup()
-                .addGroup(viewMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(viewMenuLayout.createSequentialGroup()
-                        .addGroup(viewMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(buttonMain, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonTable, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonWaiter, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, viewMenuLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(viewMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(buttonDish, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonOrder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonExti, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
-        );
-        viewMenuLayout.setVerticalGroup(
-            viewMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(viewMenuLayout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(buttonMain, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonTable, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonWaiter, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonDish, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
-                .addComponent(buttonExti)
-                .addGap(20, 20, 20))
-        );
+        lPrinci.setBackground(new java.awt.Color(204, 204, 204));
+        lPrinci.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lPrinci.setOpaque(true);
+        viewMenu.add(lPrinci, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 49, 34, 28));
+
+        lPrinci1.setBackground(new java.awt.Color(204, 204, 204));
+        lPrinci1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lPrinci1.setOpaque(true);
+        viewMenu.add(lPrinci1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 83, 34, 28));
+
+        lPrinci2.setBackground(new java.awt.Color(204, 204, 204));
+        lPrinci2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lPrinci2.setOpaque(true);
+        viewMenu.add(lPrinci2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 117, 34, 28));
+
+        lPrinci3.setBackground(new java.awt.Color(204, 204, 204));
+        lPrinci3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lPrinci3.setOpaque(true);
+        viewMenu.add(lPrinci3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 151, 34, 28));
+
+        lPrinci4.setBackground(new java.awt.Color(204, 204, 204));
+        lPrinci4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lPrinci4.setOpaque(true);
+        viewMenu.add(lPrinci4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 185, 34, 28));
 
         getContentPane().add(viewMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 110, 440));
 
@@ -891,6 +933,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
     private void buttonOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonOrderMouseClicked
         CardLayout cl = (CardLayout) viewMain.getLayout();
         cl.show(viewMain, "orderManagement");
+        viewOrder(); 
     }//GEN-LAST:event_buttonOrderMouseClicked
 
     private void lExit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lExit1MouseClicked
@@ -933,6 +976,10 @@ public class viewMainAdmin extends javax.swing.JFrame {
         dishForm dish = new dishForm(this);
         dish.setVisible(true);
     }//GEN-LAST:event_buttonAddDishActionPerformed
+
+    private void buttonMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMainActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonMainActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1009,6 +1056,11 @@ public class viewMainAdmin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lExit1;
+    private javax.swing.JLabel lPrinci;
+    private javax.swing.JLabel lPrinci1;
+    private javax.swing.JLabel lPrinci2;
+    private javax.swing.JLabel lPrinci3;
+    private javax.swing.JLabel lPrinci4;
     private javax.swing.JTable listTables;
     private javax.swing.JPanel mainStatistics;
     private javax.swing.JPanel orderManagement;
