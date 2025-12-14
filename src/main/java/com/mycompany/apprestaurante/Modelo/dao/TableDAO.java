@@ -13,9 +13,6 @@ import java.util.List;
 
 public class TableDAO implements ITableDAO {
 
-
-
-
     @Override
     public boolean saveTable(Table table) {
         Connection con = getConnection();
@@ -58,7 +55,7 @@ public class TableDAO implements ITableDAO {
                 lista.add(table);
             }
             return lista;
-        } catch ( SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Error al listar tabla de mesas" + e.getMessage());
         } finally {
             try {
@@ -90,4 +87,26 @@ public class TableDAO implements ITableDAO {
             }
         }
     }
+
+    @Override
+    public double getCurrentOccupation() {
+        String sql = "SELECT (COUNT(*) * 100) / (SELECT COUNT(*) FROM tables) AS ocupacion FROM tables WHERE state = '0'";
+        double ocupacion = 0;
+        Connection con = getConnection();
+        PreparedStatement ps;
+        ResultSet rs; 
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery(); 
+            if (rs.next()) {
+                ocupacion = rs.getDouble("ocupacion");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener ocupación: " + e.getMessage());
+        }
+
+        return ocupacion;
+    }
+    
+    
 }

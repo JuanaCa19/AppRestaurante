@@ -12,5 +12,6 @@ public interface ITableDAO {
     public List<Table> listTable();
     
     public void modifyTable(int idTable);
-
+    
+    public double getCurrentOccupation(); 
 }

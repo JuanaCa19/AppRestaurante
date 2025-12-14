@@ -4,6 +4,7 @@
  */
 package com.mycompany.apprestaurante.Vista.viewAdmin;
 
+import com.mycompany.apprestaurante.Controlador.tableController.TableController;
 import com.mycompany.apprestaurante.Modelo.dao.DishDAO;
 import com.mycompany.apprestaurante.Modelo.dao.OrderDAO;
 import com.mycompany.apprestaurante.Modelo.dao.TableDAO;
@@ -44,6 +45,8 @@ public class viewMainAdmin extends javax.swing.JFrame {
      * mesas tableShowWaiter= tabla meseros
      *
      */
+    
+    private TableController tablecontroller = new TableController(); 
     public viewMainAdmin() {
         setUndecorated(true);
         initComponents();
@@ -52,9 +55,14 @@ public class viewMainAdmin extends javax.swing.JFrame {
         ImageIcon icono1 = new ImageIcon(getClass().getResource("/picture/Exit1.png"));
         Image imagen1 = icono1.getImage().getScaledInstance(lExit1.getWidth(), lExit1.getHeight(), Image.SCALE_SMOOTH);
         lExit1.setIcon(new ImageIcon(imagen1));
-
+        loadStatistics(); 
     }
-
+    
+    public void loadStatistics(){
+        
+        double occupation = tablecontroller.getCurrentOccupation(); 
+        CurrentOccupation.setText(String.format("%.0f%%", occupation));
+    }
 
 
     public void applyTableStyle(JTable tabla) {
@@ -289,28 +297,26 @@ public class viewMainAdmin extends javax.swing.JFrame {
         currentOccupationLayout.setHorizontalGroup(
             currentOccupationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(currentOccupationLayout.createSequentialGroup()
-                .addGroup(currentOccupationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(currentOccupationLayout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(CurrentOccupation, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(currentOccupationLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, currentOccupationLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, currentOccupationLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(CurrentOccupation, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
         );
         currentOccupationLayout.setVerticalGroup(
             currentOccupationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(currentOccupationLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(CurrentOccupation, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
