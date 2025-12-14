@@ -4,6 +4,15 @@
  */
 package com.mycompany.apprestaurante.Vista.viewAdmin;
 
+import com.mycompany.apprestaurante.Modelo.dao.DishDAO;
+import com.mycompany.apprestaurante.Modelo.dao.TableDAO;
+import com.mycompany.apprestaurante.Modelo.dao.WaiterDAO;
+import com.mycompany.apprestaurante.Modelo.entities.Dish;
+import com.mycompany.apprestaurante.Modelo.entities.Table;
+import com.mycompany.apprestaurante.Modelo.entities.Waiter;
+import com.mycompany.apprestaurante.Modelo.interfaces.IDishDAO;
+import com.mycompany.apprestaurante.Modelo.interfaces.ITableDAO;
+import com.mycompany.apprestaurante.Modelo.interfaces.IWaiterDAO;
 import com.mycompany.apprestaurante.Vista.Login.login;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -11,9 +20,11 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -26,9 +37,8 @@ public class viewMainAdmin extends javax.swing.JFrame {
      * Creates new form viewMainAdmin
      */
     /**
-     * labelCurrentOccupation= porcentaje de ocupacion 
-     * listTables= tabla de  mesas 
-     * tableShowWaiter= tabla meseros
+     * labelCurrentOccupation= porcentaje de ocupacion listTables= tabla de
+     * mesas tableShowWaiter= tabla meseros
      *
      */
     public viewMainAdmin() {
@@ -43,10 +53,13 @@ public class viewMainAdmin extends javax.swing.JFrame {
     }
 
     public void loadTable() {
+        viewTable();
+        viewWaiter();
+        viewDish(); 
         applyTableStyle(listTables);
         applyTableStyle(tableShowWaiter);
-        applyTableStyle(tableDish); 
-        applyTableStyle(tableOrder); 
+        applyTableStyle(tableDish);
+        applyTableStyle(tableOrder);
     }
 
     public void applyTableStyle(JTable tabla) {
@@ -84,6 +97,72 @@ public class viewMainAdmin extends javax.swing.JFrame {
         });
     }
 
+    public void viewTable() {
+        ITableDAO tableDAO = new TableDAO();
+        List<Table> lista = tableDAO.listTable();
+        String[] columnas = {"ID", "Capacidad", "Estado"};
+        DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (Table table : lista) {
+            Object[] filas = {
+                table.getId(),
+                table.getCapacity(),
+                table.getAvailade()
+            };
+            tabla.addRow(filas);
+        }
+        listTables.setModel(tabla);
+
+    }
+
+    public void viewWaiter() {
+        IWaiterDAO dao = new WaiterDAO();
+        List<Waiter> lista = dao.listWaiter();
+        String[] columnas = {"ID", "Nombre", "Telefono"};
+        DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (Waiter waiter : lista) {
+            Object[] filas = {
+                waiter.getId(),
+                waiter.getName(),
+                waiter.getPhone()
+            };
+            tabla.addRow(filas);
+        }
+        tableShowWaiter.setModel(tabla);
+
+    }
+    
+    
+    public void viewDish() {
+        IDishDAO dao = new DishDAO();
+        List<Dish> lista = dao.listDish();
+        String[] columnas = {"ID", "Nombre", "Precio"};
+        DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (Dish dish : lista) {
+            Object[] filas = {
+                dish.getId(),
+                dish.getNombre(),
+                dish.getPrice()
+            };
+            tabla.addRow(filas);
+        }
+        tableDish.setModel(tabla);
+
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,7 +192,9 @@ public class viewMainAdmin extends javax.swing.JFrame {
         activeWaiter = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        activeTable = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
         tableManagement = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         buttonAddTable = new javax.swing.JButton();
@@ -195,7 +276,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
                 .addComponent(CurrentOccupation, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -205,7 +286,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Pedidos activos");
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 10)); // NOI18N
         jLabel9.setText("<html><div style='text-align:center;'>Pedidos en preparación <br>o en servicio</div></html>");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -230,7 +311,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(activeOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(activeOrders, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -271,7 +352,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel10)
                 .addGap(12, 12, 12)
-                .addComponent(salesDay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(salesDay, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel11)
                 .addContainerGap())
@@ -311,7 +392,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(activeWaiter, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jLabel13)
                 .addContainerGap())
         );
@@ -319,29 +400,39 @@ public class viewMainAdmin extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
+        jLabel14.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 12)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel14.setText("Mesas disponibles");
+
+        jLabel15.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 10)); // NOI18N
+        jLabel15.setText("Mesas libres");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 148, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addGap(50, 50, 50)
+                            .addComponent(activeTable, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addGap(22, 22, 22)
+                            .addComponent(jLabel14))))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 88, Short.MAX_VALUE)
-        );
-
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 148, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 88, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(activeTable, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(jLabel15)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout mainStatisticsLayout = new javax.swing.GroupLayout(mainStatistics);
@@ -349,23 +440,22 @@ public class viewMainAdmin extends javax.swing.JFrame {
         mainStatisticsLayout.setHorizontalGroup(
             mainStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainStatisticsLayout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(104, 104, 104))
-            .addGroup(mainStatisticsLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
                 .addGroup(mainStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(mainStatisticsLayout.createSequentialGroup()
-                        .addComponent(currentOccupation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(33, 33, 33)
+                        .addGroup(mainStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(mainStatisticsLayout.createSequentialGroup()
+                                .addComponent(currentOccupation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(mainStatisticsLayout.createSequentialGroup()
+                        .addGap(255, 255, 255)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
         mainStatisticsLayout.setVerticalGroup(
@@ -375,15 +465,13 @@ public class viewMainAdmin extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(34, 34, 34)
                 .addGroup(mainStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(currentOccupation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(33, 33, 33)
-                .addGroup(mainStatisticsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(135, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(currentOccupation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(109, Short.MAX_VALUE))
         );
 
         viewMain.add(mainStatistics, "mainStatistics");
@@ -835,14 +923,14 @@ public class viewMainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_searchDishFocusGained
 
     private void searchDishFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchDishFocusLost
-          if (searchDish.getText().isEmpty()) {
+        if (searchDish.getText().isEmpty()) {
             searchDish.setText("Buscar Plato");
         }
     }//GEN-LAST:event_searchDishFocusLost
 
     private void buttonAddDishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddDishActionPerformed
-       dishForm dish = new dishForm(); 
-       dish.setVisible(true);
+        dishForm dish = new dishForm();
+        dish.setVisible(true);
     }//GEN-LAST:event_buttonAddDishActionPerformed
 
     /**
@@ -883,6 +971,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CurrentOccupation;
     private javax.swing.JLabel activeOrders;
+    private javax.swing.JLabel activeTable;
     private javax.swing.JLabel activeWaiter;
     private javax.swing.JButton buttonAddDish;
     private javax.swing.JButton buttonAddTable;
@@ -900,6 +989,8 @@ public class viewMainAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -912,7 +1003,6 @@ public class viewMainAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

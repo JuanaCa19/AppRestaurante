@@ -14,7 +14,7 @@ import static com.mycompany.apprestaurante.Modelo.connectionBD.connection.getCon
 
 public class WaiterDAO implements IWaiterDAO {
     @Override
-    public void saveWaiter(Waiter waiter) {
+    public boolean saveWaiter(Waiter waiter) {
         Connection con = getConnection();
         PreparedStatement ps;
         String sql = "INSERT INTO waiters (name,phone) VALUES (?,?)";
@@ -33,6 +33,7 @@ public class WaiterDAO implements IWaiterDAO {
                 System.out.println("Error al cerrar la conexion: " + e.getMessage());
             }
         }
+        return false; 
     }
 
     @Override

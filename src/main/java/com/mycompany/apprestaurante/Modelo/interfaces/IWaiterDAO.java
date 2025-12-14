@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IWaiterDAO {
 
-    public void saveWaiter(Waiter waiter);
+    public boolean saveWaiter(Waiter waiter);
 
     public List<Waiter> listWaiter();
 
