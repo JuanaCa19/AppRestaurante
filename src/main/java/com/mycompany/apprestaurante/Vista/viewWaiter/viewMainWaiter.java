@@ -9,11 +9,9 @@ package com.mycompany.apprestaurante.Vista.viewWaiter;
 
 import com.mycompany.apprestaurante.Controlador.orderController.OrderController;
 import com.mycompany.apprestaurante.Controlador.orderDishController.OrderDishController;
-import com.mycompany.apprestaurante.Controlador.tableController.TableController;
 import com.mycompany.apprestaurante.Controlador.waiterController.WaiterController;
 import com.mycompany.apprestaurante.Modelo.dto.orderTableDTO;
 import com.mycompany.apprestaurante.Modelo.entities.Dish;
-import com.mycompany.apprestaurante.Modelo.entities.Table;
 import com.mycompany.apprestaurante.Vista.viewAdmin.tableForm;
 
 import javax.swing.*;
@@ -35,7 +33,7 @@ public class viewMainWaiter extends javax.swing.JFrame {
    private WaiterController waiterController = new WaiterController();
    private OrderDishController orderDishController = new OrderDishController();
    private TableController tableController = new TableController();
-    
+
     public viewMainWaiter(String name) {
         setUndecorated(true);
         initComponents();
@@ -62,9 +60,7 @@ public class viewMainWaiter extends javax.swing.JFrame {
         ImageIcon icono7 = new ImageIcon(getClass().getResource("/picture/CerSesion.png"));
         Image imagen7 = icono7.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
         botonExit.setIcon(new ImageIcon(imagen7));
-        ImageIcon icono8 = new ImageIcon(getClass().getResource("/picture/cubierto.png"));
-        Image imagen8 = icono8.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
-        ldetalle.setIcon(new ImageIcon(imagen8));
+
         
         this.idWaiter = waiterController.findByName(name);
     }
@@ -170,6 +166,11 @@ public class viewMainWaiter extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(0, 141, 155));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Mis Pedidos");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelMainLayout = new javax.swing.GroupLayout(PanelMain);
         PanelMain.setLayout(PanelMainLayout);
@@ -671,9 +672,9 @@ public class viewMainWaiter extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Seleccione un Pedido a Pagar!!");
         }
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
-    
+
     private void loadTableOrder(){
         List<orderTableDTO> lista = orderController.findByIdWaiter(idWaiter);
         String[] columnas = {"Numero","Mesa","Estado","Total"};

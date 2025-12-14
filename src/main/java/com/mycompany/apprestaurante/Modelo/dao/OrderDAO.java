@@ -22,7 +22,33 @@ public class OrderDAO implements IOrderDAO {
 
     @Override
     public List<Order> listOrder() {
-        return List.of();
+        List<Order> lista = new ArrayList<>();
+        Connection con = getConnection();
+        PreparedStatement ps;
+        ResultSet rs;
+        String sql = "SELECT * FROM dishes";
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Dish dish = new Dish();
+                dish.setId(rs.getInt("id"));
+                dish.setNombre(rs.getString("nombre"));
+                dish.setPrice(rs.getDouble("precio"));
+                lista.add(dish);
+            }
+            return lista;
+        } catch (Exception e) {
+            System.out.println("Error al listar plato" + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                System.out.println("Error al cerrar la conexion" + e.getMessage());
+            }
+        }
+        return null;
+    }
     }
 
     @Override
@@ -57,4 +83,6 @@ public class OrderDAO implements IOrderDAO {
         }
         return null;
     }
+    
+    
 }

@@ -17,7 +17,8 @@ public class DishController {
 
     private IDishDAO dishDAO = new DishDAO();
 
-    public boolean insertDish(Dish dish) {
+    public boolean insertDish(String nombre,double precio) {
+        Dish dish = new Dish(precio,nombre);
         return dishDAO.saveDish(dish);
     }
 

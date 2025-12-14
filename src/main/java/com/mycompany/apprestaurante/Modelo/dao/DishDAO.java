@@ -24,7 +24,7 @@ public class DishDAO implements IDishDAO {
         Connection con = conexion. getConnection();
 
         PreparedStatement ps;
-        String sql = "INSERT INTO  DishDAO(nombre, precio)values(?,?)";
+        String sql = "INSERT INTO  dishes(nombre, precio)values(?,?)";
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, dish.getNombre());

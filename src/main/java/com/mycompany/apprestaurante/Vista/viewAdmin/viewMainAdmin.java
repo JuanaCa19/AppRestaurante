@@ -53,12 +53,6 @@ public class viewMainAdmin extends javax.swing.JFrame {
     }
 
     public void loadTable() {
-        viewTable();
-        viewWaiter();
-        viewDish(); 
-        applyTableStyle(listTables);
-        applyTableStyle(tableShowWaiter);
-        applyTableStyle(tableDish);
         applyTableStyle(tableOrder);
     }
 
@@ -108,15 +102,19 @@ public class viewMainAdmin extends javax.swing.JFrame {
             }
         };
         for (Table table : lista) {
+            String state = "Inactivo"; 
+            if(table.isAvailade()){
+                state = "Activo"; 
+            }
             Object[] filas = {
                 table.getId(),
                 table.getCapacity(),
-                table.getAvailade()
+                state
             };
             tabla.addRow(filas);
         }
         listTables.setModel(tabla);
-
+        applyTableStyle(listTables);
     }
 
     public void viewWaiter() {
@@ -138,7 +136,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
             tabla.addRow(filas);
         }
         tableShowWaiter.setModel(tabla);
-
+        applyTableStyle(tableShowWaiter);
     }
     
     
@@ -161,7 +159,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
             tabla.addRow(filas);
         }
         tableDish.setModel(tabla);
-
+        applyTableStyle(tableDish);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -875,16 +873,19 @@ public class viewMainAdmin extends javax.swing.JFrame {
     private void buttonTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonTableMouseClicked
         CardLayout cl = (CardLayout) viewMain.getLayout();
         cl.show(viewMain, "tableManagement");
+        viewTable();
     }//GEN-LAST:event_buttonTableMouseClicked
 
     private void buttonWaiterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonWaiterMouseClicked
         CardLayout cl = (CardLayout) viewMain.getLayout();
         cl.show(viewMain, "waiterManagement");
+         viewWaiter();
     }//GEN-LAST:event_buttonWaiterMouseClicked
 
     private void buttonDishMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonDishMouseClicked
         CardLayout cl = (CardLayout) viewMain.getLayout();
         cl.show(viewMain, "dishManagement");
+        viewDish(); 
     }//GEN-LAST:event_buttonDishMouseClicked
 
     private void buttonOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonOrderMouseClicked
@@ -901,7 +902,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonWaiterActionPerformed
 
     private void buttonAddTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonAddTableMouseClicked
-        tableForm table = new tableForm();
+        tableForm table = new tableForm(this);
         table.setVisible(true);
     }//GEN-LAST:event_buttonAddTableMouseClicked
 
@@ -912,7 +913,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonExtiActionPerformed
 
     private void buttonAddWaiterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddWaiterActionPerformed
-        waiterForm waiter = new waiterForm();
+        waiterForm waiter = new waiterForm(this);
         waiter.setVisible(true);
     }//GEN-LAST:event_buttonAddWaiterActionPerformed
 
@@ -929,7 +930,7 @@ public class viewMainAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_searchDishFocusLost
 
     private void buttonAddDishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddDishActionPerformed
-        dishForm dish = new dishForm();
+        dishForm dish = new dishForm(this);
         dish.setVisible(true);
     }//GEN-LAST:event_buttonAddDishActionPerformed
 

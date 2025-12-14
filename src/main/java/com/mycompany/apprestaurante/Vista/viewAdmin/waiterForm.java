@@ -19,11 +19,14 @@ public class waiterForm extends javax.swing.JFrame {
     /**
      * Creates new form waiterForm
      */
-    public waiterForm() {
+    private viewMainAdmin viewAdmin; 
+    private WaiterController waiterController = new WaiterController(); 
+    
+    public waiterForm(viewMainAdmin viewAdmin) {
          setUndecorated(true);
         initComponents();
         setLocationRelativeTo(null);
-        
+        this.viewAdmin = viewAdmin; 
         ImageIcon icono1 = new ImageIcon(getClass().getResource("/picture/Exit1.png"));
         Image imagen1 = icono1.getImage().getScaledInstance(lExit1.getWidth(),lExit1.getHeight(),Image.SCALE_SMOOTH);
         lExit1.setIcon(new ImageIcon(imagen1));
@@ -153,10 +156,9 @@ public class waiterForm extends javax.swing.JFrame {
     private void saveWaiterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveWaiterActionPerformed
         String name = boxNameWaiter.getText(); 
         String phone = boxPhoneWaiter.getText(); 
-        Waiter waiter = new Waiter(name,phone); 
-        WaiterController waiterController = new WaiterController(); 
-        waiterController.saveWaiter(waiter); 
+        waiterController.saveWaiter(phone,name); 
         JOptionPane.showMessageDialog(null, "Mesero ingresado con exito");
+        viewAdmin.viewWaiter();
         this.setVisible(false);
     }//GEN-LAST:event_saveWaiterActionPerformed
 
