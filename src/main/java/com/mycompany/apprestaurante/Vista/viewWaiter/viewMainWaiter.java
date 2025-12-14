@@ -8,8 +8,10 @@ package com.mycompany.apprestaurante.Vista.viewWaiter;
 
 
 import com.mycompany.apprestaurante.Controlador.orderController.OrderController;
+import com.mycompany.apprestaurante.Controlador.orderDishController.OrderDishController;
 import com.mycompany.apprestaurante.Controlador.waiterController.WaiterController;
 import com.mycompany.apprestaurante.Modelo.dto.orderTableDTO;
+import com.mycompany.apprestaurante.Modelo.entities.Dish;
 import com.mycompany.apprestaurante.Vista.viewAdmin.tableForm;
 
 import javax.swing.*;
@@ -28,6 +30,7 @@ public class viewMainWaiter extends javax.swing.JFrame {
    private int idWaiter;
    private OrderController orderController = new OrderController();
    private WaiterController waiterController = new WaiterController();
+   private OrderDishController orderDishController = new OrderDishController();
     
     public viewMainWaiter(String name) {
         setUndecorated(true);
@@ -295,7 +298,7 @@ public class viewMainWaiter extends javax.swing.JFrame {
         ldetalle.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
         ldetalle.setForeground(new java.awt.Color(0, 0, 0));
         ldetalle.setText("Detalle del Pedido");
-        PanelMyOrder.add(ldetalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(511, 20, -1, -1));
+        PanelMyOrder.add(ldetalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 20, -1, -1));
 
         jButton3.setBackground(new java.awt.Color(0, 141, 155));
         jButton3.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 16)); // NOI18N
@@ -615,6 +618,9 @@ public class viewMainWaiter extends javax.swing.JFrame {
             int idOrder = Integer.parseInt(tableOrder.getValueAt(fila, 0).toString());
             lTotal.setText("$   " + tableOrder.getValueAt(fila, 3).toString());
             loadTableOrderClick(idOrder);
+            jLabel10.setVisible(false);
+        }else{
+            jLabel10.setVisible(true);
         }
     }//GEN-LAST:event_tableOrderMouseClicked
     
@@ -643,27 +649,22 @@ public class viewMainWaiter extends javax.swing.JFrame {
     }
     
     private void loadTableOrderClick(int idOrder){
-        List<orderTableDTO> lista = orderController.findByIdWaiter(idWaiter);
-        String[] columnas = {"Numero","Mesa","Estado","Total"};
+        List<Dish> lista = orderDishController.findByIdOrder(idOrder);
+        String[] columnas = {"Nombre"};
         DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-        for (orderTableDTO order : lista) {
-            String state = "Inactivo";
-            if(order.isState())state = "Activo";
+        for (Dish dish : lista) {
             Object[] filas = {
-                    order.getIdOrder(),
-                    order.getIdTable(),
-                    state,
-                    order.getTotal()
+                    dish.getNombre()
             };
             tabla.addRow(filas);
         }
-        tableOrder.setModel(tabla);
-        applyTableStyle(tableOrder);
+        tableOrder1.setModel(tabla);
+        applyTableStyle(tableOrder1);
     }
     
     public void applyTableStyle(JTable tabla) {
