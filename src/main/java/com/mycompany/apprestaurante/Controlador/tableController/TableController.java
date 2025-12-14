@@ -27,4 +27,8 @@ public class TableController {
     public void modifyTable(int idTable,boolean state){
         tableDAO.modifyTable(idTable,state);
     }
+    
+    public double getCurrentOccupation(){
+        return tableDAO.getCurrentOccupation(); 
+    }
 }

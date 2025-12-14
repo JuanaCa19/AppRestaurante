@@ -13,4 +13,7 @@ public interface ITableDAO {
     
     public void modifyTable(int idTable,boolean state);
 
+    public void modifyTable(int idTable);
+
+    public double getCurrentOccupation();
 }
