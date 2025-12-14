@@ -5,19 +5,47 @@ import com.mycompany.apprestaurante.Modelo.entities.Order;
 import com.mycompany.apprestaurante.Modelo.entities.User;
 import com.mycompany.apprestaurante.Modelo.interfaces.IOrderDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.mycompany.apprestaurante.Modelo.connectionBD.connection.getConnection;
 
-public class OrderDAO implements IOrderDAO {
-    @Override
-    public void saveOrder(Order order) {
+import java.time.LocalDate;
 
+public class OrderDAO implements IOrderDAO {
+    
+    @Override
+    public int saveOrder(Order order) {
+        Connection con = getConnection();
+        PreparedStatement ps;
+        ResultSet rs;
+        String sql = "Insert Into orders (dateOrder,timeOrder,idTable,idWaiter,total,state) VALUES (?,?,?,?,?,?)";
+        try {
+            ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setDate(1, Date.valueOf(LocalDate.now()));
+            ps.setTime(2, Time.valueOf(LocalTime.now()));
+            ps.setInt(3,order.getIdTable());
+            ps.setInt(4,order.getIdWaiter());
+            ps.setDouble(5,order.getTotal());
+            ps.setBoolean(6, true);
+            ps.executeUpdate();
+            rs = ps.getGeneratedKeys();
+            if(rs.next()){
+                int idOrder = rs.getInt(1);
+                return idOrder;
+            }
+        } catch (Exception e) {
+            System.out.println("Error al insertar pedido" + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                System.out.println("Error al cerrar la conexion" + e.getMessage());
+            }
+        }
+       return -1;
     }
 
     @Override
@@ -54,24 +82,23 @@ public class OrderDAO implements IOrderDAO {
 
 
     @Override
-    public List<orderTableDTO> findByIdWaiter(int idWaiter) {
-        List<orderTableDTO> list = new ArrayList<>();
+    public List<Order> findByIdWaiter(int idWaiter) {
+        List<Order> list = new ArrayList<>();
         Connection con = getConnection();
         PreparedStatement ps;
         ResultSet rs;
-        String sql = "SELECT orders.id , orders.total,orders.idTable,tables.state FROM restaurante.orders\n" +
-                "inner join tables on orders.idTable = tables.id where idWaiter = ?;";
+        String sql = "SELECT * FROM restaurante.orders WHERE idWaiter = ?"; 
         try{
             ps = con.prepareStatement(sql);
             ps.setInt(1,idWaiter);
             rs = ps.executeQuery();
             while(rs.next()){
-                orderTableDTO orderTableDTO = new orderTableDTO();
-                orderTableDTO.setTotal(rs.getInt("total"));
-                orderTableDTO.setIdTable(rs.getInt("idTable"));
-                orderTableDTO.setState(rs.getBoolean("state"));
-                orderTableDTO.setIdOrder(rs.getInt("id"));
-                list.add(orderTableDTO);
+                Order order = new Order();
+                order.setTotal(rs.getInt("total"));
+                order.setIdTable(rs.getInt("idTable"));
+                order.setState(rs.getBoolean("state"));
+                order.setId(rs.getInt("id"));
+                list.add(order);
             }
             return list;
         }catch(SQLException e){
@@ -84,6 +111,27 @@ public class OrderDAO implements IOrderDAO {
             }
         }
         return null;
+    }
+
+    @Override
+    public void modifyOrder(int idOrder) {
+         Connection con = getConnection();
+        PreparedStatement ps;
+        String sql = "UPDATE orders set state = ? WHERE id = ?";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setBoolean(1, false);
+            ps.setInt(2, idOrder);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println("Error al modificar pedido" + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexion de mesa" + e.getMessage());
+            }
+        }
     }
     
     

@@ -8,6 +8,12 @@ public class Dish {
     public Dish() {
     }
 
+    public Dish(int id, String nombre, double price) {
+        this.id = id;
+        this.nombre = nombre;
+        this.price = price;
+    }
+
     public Dish(double price, String nombre) {
         this.price = price;
         this.nombre = nombre;

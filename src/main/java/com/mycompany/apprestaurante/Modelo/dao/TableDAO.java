@@ -25,7 +25,7 @@ public class TableDAO implements ITableDAO {
         try {
             ps = con.prepareStatement(sql);
             ps.setInt(1, table.getCapacity());
-            ps.setBoolean(2, table.isState());
+            ps.setBoolean(2, !table.isState());
             ps.execute();
             return true;
         } catch (SQLException e) {
@@ -71,17 +71,17 @@ public class TableDAO implements ITableDAO {
     }
 
     @Override
-    public void modifyTable(int idTable) {
+    public void modifyTable(int idTable,boolean state) {
         Connection con = getConnection();
         PreparedStatement ps;
         String sql = "UPDATE tables set state = ? WHERE id = ?";
         try {
             ps = con.prepareStatement(sql);
-            ps.setBoolean(1, false);
+            ps.setBoolean(1, state);
             ps.setInt(2, idTable);
             ps.execute();
         } catch (SQLException e) {
-            System.out.println("Error al ingresar mesa" + e.getMessage());
+            System.out.println("Error al modificar mesa" + e.getMessage());
         } finally {
             try {
                 con.close();

@@ -5,10 +5,9 @@ import com.mycompany.apprestaurante.Modelo.entities.OrderDish;
 import com.mycompany.apprestaurante.Modelo.entities.Waiter;
 import com.mycompany.apprestaurante.Modelo.interfaces.IOrderDishDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,25 @@ import static com.mycompany.apprestaurante.Modelo.connectionBD.connection.getCon
 public class OrderDishDAO implements IOrderDishDAO {
     @Override
     public void saveOrderDish(OrderDish orderDish) {
+        Connection con = getConnection();
+        PreparedStatement ps;
+        ResultSet rs;
+        String sql = "Insert Into order_dish (idOrder,idDish) VALUES (?,?)";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1,orderDish.getIdOrder());
+            ps.setInt(2,orderDish.getIdDish());
+            ps.execute();
 
+        } catch (Exception e) {
+            System.out.println("Error al insertar pedido plato" + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                System.out.println("Error al cerrar la conexion" + e.getMessage());
+            }
+        }
     }
 
     @Override

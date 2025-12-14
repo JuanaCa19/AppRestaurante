@@ -24,7 +24,7 @@ public class TableController {
         return tableDAO.listTable(); 
     }
     
-    public void modifyTable(int idTable){
-        tableDAO.modifyTable(idTable);
+    public void modifyTable(int idTable,boolean state){
+        tableDAO.modifyTable(idTable,state);
     }
 }

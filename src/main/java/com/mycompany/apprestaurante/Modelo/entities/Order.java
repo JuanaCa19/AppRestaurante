@@ -11,6 +11,7 @@ public class Order {
     private int idTable;
     private String orderDescription;
     private double total;
+    private boolean state;
 
     public Order() {
     }
@@ -22,6 +23,14 @@ public class Order {
         this.idTable = idTable;
         this.orderDescription = orderDescription;
         this.total = total;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 
     public int getId() {

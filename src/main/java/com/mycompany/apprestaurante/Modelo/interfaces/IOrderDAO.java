@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface IOrderDAO {
 
-    public void saveOrder(Order order);
+    public int saveOrder(Order order);
 
     public List<Order> listOrder();
 
-    public List<orderTableDTO> findByIdWaiter(int idWaiter);
+    public List<Order> findByIdWaiter(int idWaiter);
+    
+    public void modifyOrder(int idOrder);
 }
