@@ -9,9 +9,11 @@ package com.mycompany.apprestaurante.Vista.viewWaiter;
 
 import com.mycompany.apprestaurante.Controlador.orderController.OrderController;
 import com.mycompany.apprestaurante.Controlador.orderDishController.OrderDishController;
+import com.mycompany.apprestaurante.Controlador.tableController.TableController;
 import com.mycompany.apprestaurante.Controlador.waiterController.WaiterController;
 import com.mycompany.apprestaurante.Modelo.dto.orderTableDTO;
 import com.mycompany.apprestaurante.Modelo.entities.Dish;
+import com.mycompany.apprestaurante.Modelo.entities.Table;
 import com.mycompany.apprestaurante.Vista.viewAdmin.tableForm;
 
 import javax.swing.*;
@@ -28,9 +30,11 @@ import javax.swing.table.JTableHeader;
 public class viewMainWaiter extends javax.swing.JFrame {
     
    private int idWaiter;
+   private int idTable;
    private OrderController orderController = new OrderController();
    private WaiterController waiterController = new WaiterController();
    private OrderDishController orderDishController = new OrderDishController();
+   private TableController tableController = new TableController();
     
     public viewMainWaiter(String name) {
         setUndecorated(true);
@@ -91,6 +95,9 @@ public class viewMainWaiter extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         lItems = new javax.swing.JLabel();
         PanelOrder = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel9 = new javax.swing.JLabel();
         PanelMyOrder = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -235,15 +242,42 @@ public class viewMainWaiter extends javax.swing.JFrame {
 
         PanelOrder.setBackground(new java.awt.Color(255, 255, 255));
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable1);
+
+        jLabel9.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("Seleccione la Mesa");
+
         javax.swing.GroupLayout PanelOrderLayout = new javax.swing.GroupLayout(PanelOrder);
         PanelOrder.setLayout(PanelOrderLayout);
         PanelOrderLayout.setHorizontalGroup(
             PanelOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 670, Short.MAX_VALUE)
+            .addGroup(PanelOrderLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(PanelOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
         PanelOrderLayout.setVerticalGroup(
             PanelOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
+            .addGroup(PanelOrderLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel9)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(168, Short.MAX_VALUE))
         );
 
         PanelContenedor.add(PanelOrder, "card3");
@@ -304,6 +338,11 @@ public class viewMainWaiter extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 16)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Pagar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         PanelMyOrder.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(496, 368, 152, -1));
 
         jLabel8.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 16)); // NOI18N
@@ -618,11 +657,22 @@ public class viewMainWaiter extends javax.swing.JFrame {
             int idOrder = Integer.parseInt(tableOrder.getValueAt(fila, 0).toString());
             lTotal.setText("$   " + tableOrder.getValueAt(fila, 3).toString());
             loadTableOrderClick(idOrder);
+            this.idTable = Integer.parseInt(tableOrder.getValueAt(fila, 1).toString());
             jLabel10.setVisible(false);
         }else{
             jLabel10.setVisible(true);
         }
     }//GEN-LAST:event_tableOrderMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        if(this.idTable != 0){
+            tableController.modifyTable(this.idTable);
+        }else{
+            JOptionPane.showMessageDialog(null, "Seleccione un Pedido a Pagar!!");
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
     
     private void loadTableOrder(){
         List<orderTableDTO> lista = orderController.findByIdWaiter(idWaiter);
@@ -666,7 +716,27 @@ public class viewMainWaiter extends javax.swing.JFrame {
         tableOrder1.setModel(tabla);
         applyTableStyle(tableOrder1);
     }
-    
+
+    private void loadTable(){
+        List<Table> lista = tableController.listTable();
+        String[] columnas = {"Numero","Capacidad","Disponiible"};
+        DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (Table table : lista) {
+            Object[] filas = {
+                    table.getId(),
+                    table.getCapacity(),
+                    table.getState()
+            };
+            tabla.addRow(filas);
+        }
+        tableOrder1.setModel(tabla);
+        applyTableStyle(tableOrder1);
+    }
     public void applyTableStyle(JTable tabla) {
 
         JTableHeader header = tabla.getTableHeader();
@@ -757,9 +827,12 @@ public class viewMainWaiter extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JLabel lExit1;
     private javax.swing.JLabel lItems;

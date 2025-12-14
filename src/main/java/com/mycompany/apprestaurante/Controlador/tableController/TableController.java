@@ -22,4 +22,8 @@ public class TableController {
     public List<Table> listTable(){
         return tableDAO.listTable(); 
     }
+    
+    public void modifyTable(int idTable){
+        tableDAO.modifyTable(idTable);
+    }
 }

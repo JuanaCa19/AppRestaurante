@@ -10,5 +10,7 @@ public interface ITableDAO {
     public boolean saveTable(Table table);
 
     public List<Table> listTable();
+    
+    public void modifyTable(int idTable);
 
 }
