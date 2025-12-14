@@ -19,11 +19,14 @@ public class dishForm extends javax.swing.JFrame {
     /**
      * Creates new form dishForm
      */
-    public dishForm() {
+    
+    private viewMainAdmin viewAdmin; 
+    private DishController dishcontroller = new DishController(); 
+    public dishForm(viewMainAdmin viewAdmin) {
         setUndecorated(true);
         initComponents();
         setLocationRelativeTo(null);
-        
+        this.viewAdmin = viewAdmin; 
         ImageIcon icono1 = new ImageIcon(getClass().getResource("/picture/Exit1.png"));
         Image imagen1 = icono1.getImage().getScaledInstance(lExit1.getWidth(),lExit1.getHeight(),Image.SCALE_SMOOTH);
         lExit1.setIcon(new ImageIcon(imagen1));
@@ -155,11 +158,11 @@ public class dishForm extends javax.swing.JFrame {
         double precio = Double.parseDouble(boxPriceDish.getText());
         
         Dish dish = new Dish (precio, nombre); 
-        DishController dishcontroller = new DishController(); 
-        dishcontroller.insertDish(dish); 
+        
+        dishcontroller.insertDish(nombre,precio); 
         JOptionPane.showMessageDialog(null, "Plato ingresado con exito");
         this.setVisible(false);
-        
+        viewAdmin.viewDish();
     }//GEN-LAST:event_saveDishActionPerformed
 
     /**

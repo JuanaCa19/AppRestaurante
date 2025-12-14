@@ -13,7 +13,8 @@ public class WaiterController {
         return dao.listWaiter();
     }
     
-    public boolean saveWaiter(Waiter waiter){
+    public boolean saveWaiter(String phone, String name){
+        Waiter waiter = new Waiter(phone,name); 
         return dao.saveWaiter(waiter);
     }
     public int findByName(String name){

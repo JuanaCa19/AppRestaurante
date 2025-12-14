@@ -58,9 +58,7 @@ public class viewMainWaiter extends javax.swing.JFrame {
         ImageIcon icono7 = new ImageIcon(getClass().getResource("/picture/CerSesion.png"));
         Image imagen7 = icono7.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
         botonExit.setIcon(new ImageIcon(imagen7));
-        ImageIcon icono8 = new ImageIcon(getClass().getResource("/picture/cubierto.png"));
-        Image imagen8 = icono8.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
-        ldetalle.setIcon(new ImageIcon(imagen8));
+
         
         this.idWaiter = waiterController.findByName(name);
     }
@@ -163,6 +161,11 @@ public class viewMainWaiter extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(0, 141, 155));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Mis Pedidos");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelMainLayout = new javax.swing.GroupLayout(PanelMain);
         PanelMain.setLayout(PanelMainLayout);
@@ -623,6 +626,12 @@ public class viewMainWaiter extends javax.swing.JFrame {
             jLabel10.setVisible(true);
         }
     }//GEN-LAST:event_tableOrderMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        CardLayout cl = (CardLayout) PanelContenedor.getLayout();
+        cl.show(PanelContenedor, "card4");
+        loadTableOrder();
+    }//GEN-LAST:event_jButton2ActionPerformed
     
     private void loadTableOrder(){
         List<orderTableDTO> lista = orderController.findByIdWaiter(idWaiter);

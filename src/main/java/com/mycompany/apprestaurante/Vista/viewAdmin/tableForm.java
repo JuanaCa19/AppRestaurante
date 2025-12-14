@@ -19,11 +19,14 @@ public class tableForm extends javax.swing.JFrame {
     /**
      * Creates new form tableForm
      */
-    public tableForm() {
+    
+    private TableController tableController = new TableController();
+    private viewMainAdmin viewAdmin; 
+    public tableForm(viewMainAdmin viewAdmin) {
         setUndecorated(true);
         initComponents();
         setLocationRelativeTo(null);
-        
+        this.viewAdmin = viewAdmin; 
         ImageIcon icono1 = new ImageIcon(getClass().getResource("/picture/Exit1.png"));
         Image imagen1 = icono1.getImage().getScaledInstance(lExit.getWidth(),lExit.getHeight(),Image.SCALE_SMOOTH);
         lExit.setIcon(new ImageIcon(imagen1));
@@ -147,11 +150,10 @@ public class tableForm extends javax.swing.JFrame {
 
     private void saveTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveTableActionPerformed
         int capacity = Integer.parseInt(boxTableCapacity.getText());
-        Table table = new Table(capacity,"disponible"); 
-       TableController tableController = new TableController();
-       tableController.insertTable(table); 
+       tableController.insertTable(capacity, true); 
        JOptionPane.showMessageDialog(null, "Mesa ingresada con exito"); 
        this.setVisible(false);
+       viewAdmin.viewTable();
     }//GEN-LAST:event_saveTableActionPerformed
 
     /**

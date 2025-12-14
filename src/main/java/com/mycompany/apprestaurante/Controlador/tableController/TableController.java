@@ -15,7 +15,8 @@ import java.util.List;
  */
 public class TableController {
     private ITableDAO tableDAO = new TableDAO(); 
-    public boolean insertTable(Table table){
+    public boolean insertTable(int capacity, boolean availade){
+        Table table = new Table(capacity,availade); 
         return tableDAO.saveTable(table); 
     }
     
